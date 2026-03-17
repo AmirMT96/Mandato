@@ -264,26 +264,19 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 10px;
       flex-shrink: 0;
     }
 
-    .logo-icon svg { display: block; }
-
-    /* Default: blue stripes */
-    .logo-icon svg path { fill: var(--accent); }
-
-    .logo-word {
-      font-family: 'Nunito', 'Inter', sans-serif;
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--accent);
-      letter-spacing: -0.01em;
+    .logo img {
+      height: 36px;
+      width: auto;
+      display: block;
     }
 
     /* White version (footer / dark backgrounds) */
-    .logo-white .logo-icon svg path { fill: var(--white); }
-    .logo-white .logo-word { color: var(--white); }
+    .logo-white img {
+      filter: brightness(0) invert(1);
+    }
 
     /* Nav links pill */
     .nav-links {
@@ -1038,14 +1031,7 @@
       <div class="nav-inner">
         <!-- Logo -->
         <a href="#" class="logo" aria-label="Mandato">
-          <div class="logo-icon">
-            <svg width="46" height="30" viewBox="0 0 64 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0 42L14 0H26L12 42H0Z"/>
-              <path d="M19 42L33 0H45L31 42H19Z"/>
-              <path d="M38 42L52 0H64L50 42H38Z"/>
-            </svg>
-          </div>
-          <span class="logo-word">Mandato</span>
+          <img src="logo.svg" alt="Mandato" />
         </a>
 
         <!-- Nav Links -->
@@ -1513,15 +1499,8 @@
       <div class="footer-inner">
         <!-- Logo + Tagline -->
         <div class="footer-logo">
-          <div class="logo">
-            <div class="logo-icon">
-              <svg width="46" height="30" viewBox="0 0 64 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 42L14 0H26L12 42H0Z"/>
-                <path d="M19 42L33 0H45L31 42H19Z"/>
-                <path d="M38 42L52 0H64L50 42H38Z"/>
-              </svg>
-            </div>
-            <span class="logo-word">Mandato</span>
+          <div class="logo logo-white">
+            <img src="logo.svg" alt="Mandato" />
           </div>
           <span class="footer-tagline" data-de="KI-gestützte M&amp;A Automatisierung" data-en="AI-powered M&amp;A Automation">KI-gestützte M&amp;A Automatisierung</span>
         </div>

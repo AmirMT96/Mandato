@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mandato – KI-gestützte M&A Automatisierung</title>
+  <meta name="description" content="Mandato automatisiert den gesamten M&A-Prozess für Finanzberater – von Teaser bis Signing." />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <style>
+    /* =============================================
+       CSS RESET & BASE
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0f;
+      --surface:   #12121a;
+      --border:    #1e1e2e;
+      --accent:    #1B5FD9;
+      --accent-h:  #0D4FA3;
+      --white:     #ffffff;
+      --muted:     #8888aa;
+      --green:     #22c55e;
+      --radius:    12px;
+      --radius-lg: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      cursor: none; /* hide default cursor for custom cursor */
+    }
+
+    /* =============================================
+       CUSTOM CURSOR
+    ============================================= */
+    #cursor-dot,
+    #cursor-glow {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s;
+    }
+
+    #cursor-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    #cursor-glow {
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(circle, rgba(27,95,217,0.25) 0%, transparent 70%);
+      transition: transform 0.12s ease-out, opacity 0.3s;
+      filter: blur(2px);
+    }
+
+    @media (hover: none) {
+      #cursor-dot, #cursor-glow { display: none; }
+      body { cursor: auto; }
+    }
+
+    /* =============================================
+       TYPOGRAPHY UTILITIES
+    ============================================= */
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .accent-italic {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    h1, h2, h3, h4 {
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    p { color: var(--muted); }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* =============================================
+       LAYOUT UTILITIES
+    ============================================= */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-header .eyebrow { margin-bottom: 16px; }
+    .section-header h2 { font-size: clamp(28px, 4vw, 40px); margin-bottom: 16px; }
+    .section-header p { font-size: 16px; max-width: 560px; margin: 0 auto; }
+
+    /* =============================================
+       BUTTONS
+    ============================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      border: none;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+    }
+    .btn-primary:hover {
+      background: var(--accent-h);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(27,95,217,0.35);
+    }
+
+    .btn-white {
+      background: var(--white);
+      color: var(--accent);
+    }
+    .btn-white:hover {
+      background: #e8f0fd;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* =============================================
+       CARDS
+    ============================================= */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(27,95,217,0.5);
+      box-shadow: 0 12px 40px rgba(27,95,217,0.12);
+    }
+
+    /* =============================================
+       BADGE / STATUS PILL
+    ============================================= */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .badge-blue   { background: rgba(27,95,217,0.15); color: var(--accent); }
+    .badge-green  { background: rgba(34,197,94,0.15);  color: var(--green); }
+    .badge-gray   { background: rgba(136,136,170,0.15); color: var(--muted); }
+
+    /* =============================================
+       DOTTED GRID BACKGROUND
+    ============================================= */
+    .dot-bg {
+      background-image: radial-gradient(rgba(27,95,217,0.15) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    /* =============================================
+       SCROLL FADE-IN ANIMATION
+    ============================================= */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+
+    /* =============================================
+       NAVBAR
+    ============================================= */
+    #navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 16px 0;
+      transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+    }
+
+    #navbar.scrolled {
+      background: rgba(10,10,15,0.80);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .logo-icon {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .logo-icon span {
+      display: block;
+      height: 18px;
+      border-radius: 2px;
+      background: var(--accent);
+    }
+    .logo-icon span:nth-child(1) { width: 4px; transform: skewX(-20deg); }
+    .logo-icon span:nth-child(2) { width: 4px; transform: skewX(-20deg); }
+    .logo-icon span:nth-child(3) { width: 4px; transform: skewX(-20deg); }
+
+    .logo-word {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .logo-white .logo-icon span { background: var(--white); }
+    .logo-white .logo-word { color: var(--white); }
+
+    /* Nav links pill */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: block;
+      padding: 7px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      border-radius: 100px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--white);
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* Nav right */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Language toggle */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .lang-btn {
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      cursor: none;
+      transition: color 0.2s, background 0.2s;
+      background: transparent;
+      border: none;
+      font-family: 'Inter', sans-serif;
+    }
+    .lang-btn.active {
+      color: var(--white);
+      background: rgba(255,255,255,0.08);
+    }
+    .lang-btn:hover { color: var(--white); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu overlay */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--white); }
+    .mobile-menu .lang-toggle { margin-top: 16px; }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-right .btn { display: none; }
+      .hamburger { display: flex; }
+    }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(27,95,217,0.12) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(27,95,217,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(27,95,217,0.1);
+      border: 1px solid rgba(27,95,217,0.3);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    .hero-eyebrow-pill i { width: 14px; height: 14px; }
+
+    .hero-headline {
+      font-size: clamp(42px, 5.5vw, 64px);
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--muted);
+      margin-bottom: 36px;
+      max-width: 420px;
+    }
+
+    /* Hero Mockup Card */
+    .hero-mockup {
+      position: relative;
+    }
+
+    .mockup-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(27,95,217,0.08);
+      position: relative;
+    }
+
+    .mockup-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mockup-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      flex-shrink: 0;
+    }
+
+    .mockup-header-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .mockup-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(30,30,46,0.6);
+      gap: 12px;
+    }
+    .mockup-row:last-child { border-bottom: none; }
+
+    .mockup-row-label { font-size: 13px; color: var(--muted); }
+    .mockup-row-value { font-size: 12px; font-weight: 600; color: var(--white); }
+
+    /* Floating badges */
+    .float-badge {
+      position: absolute;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .float-badge-1 {
+      top: -16px;
+      right: -16px;
+      color: var(--accent);
+      border-color: rgba(27,95,217,0.4);
+      background: rgba(27,95,217,0.08);
+    }
+
+    .float-badge-2 {
+      bottom: -16px;
+      left: -16px;
+      color: var(--green);
+      border-color: rgba(34,197,94,0.3);
+      background: rgba(34,197,94,0.06);
+    }
+
+    /* Progress bars in mockup */
+    .progress-track {
+      flex: 1;
+      height: 4px;
+      background: rgba(30,30,46,0.8);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 100px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .hero-mockup { order: 2; max-width: 480px; margin: 0 auto; width: 100%; }
+    }
+
+    /* =============================================
+       PROBLEM SECTION
+    ============================================= */
+    #problem {
+      padding: 100px 0;
+    }
+
+    .problem-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .problem-card .icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(27,95,217,0.1);
+      border: 1px solid rgba(27,95,217,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .problem-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+
+    .problem-card p { font-size: 15px; color: var(--muted); }
+
+    @media (max-width: 768px) {
+      .problem-cards { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 600px) and (max-width: 900px) {
+      .problem-cards { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* =============================================
+       PROCESS SECTION
+    ============================================= */
+    #process {
+      padding: 100px 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(27,95,217,0.03) 50%, transparent 100%);
+    }
+
+    .phase-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .phase-card {
+      position: relative;
+    }
+
+    .phase-number {
+      font-size: 40px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.04);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .phase-card h3 {
+      font-size: 16px;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .phase-card p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .phase-connector {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .phase-cards { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .phase-cards { grid-template-columns: 1fr; }
+    }
+
+    /* =============================================
+       FEATURES SECTION
+    ============================================= */
+    #features {
+      padding: 100px 0;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 24px;
+    }
+
+    /* Last row: 2 cards centered */
+    .features-grid .feat-card:nth-child(4) { grid-column: 1; }
+    .features-grid .feat-card:nth-child(5) { grid-column: 2; }
+
+    @media (max-width: 900px) {
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .features-grid .feat-card:nth-child(4),
+      .features-grid .feat-card:nth-child(5) { grid-column: auto; }
+    }
+    @media (max-width: 568px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+
+    .feat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    .feat-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(27,95,217,0.5);
+      box-shadow: 0 12px 40px rgba(27,95,217,0.12);
+    }
+
+    .feat-card-blue {
+      background: var(--accent);
+      border-color: var(--accent-h);
+    }
+    .feat-card-blue:hover {
+      background: var(--accent-h);
+      border-color: var(--accent-h);
+      box-shadow: 0 12px 40px rgba(27,95,217,0.4);
+    }
+    .feat-card-blue p { color: rgba(255,255,255,0.75); }
+    .feat-card-blue .feat-number { color: rgba(255,255,255,0.2); }
+
+    .feat-number {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(136,136,170,0.4);
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+
+    .feat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(27,95,217,0.1);
+      border: 1px solid rgba(27,95,217,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+    .feat-card-blue .feat-icon {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.2);
+      color: var(--white);
+    }
+
+    .feat-card h3 {
+      font-size: 17px;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+
+    .feat-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* =============================================
+       AI SECTION
+    ============================================= */
+    #ai-section {
+      padding: 100px 0;
+      background: linear-gradient(180deg, transparent, rgba(27,95,217,0.04), transparent);
+    }
+
+    .ai-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .ai-headline { font-size: clamp(28px, 4vw, 42px); margin-bottom: 28px; }
+
+    .ai-bullets {
+      list-style: none;
+      margin-bottom: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .ai-bullets li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .ai-bullets li .check {
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .star-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .stars { color: #facc15; font-size: 18px; letter-spacing: 2px; }
+    .star-label { font-size: 13px; color: var(--muted); }
+
+    /* Buyer Universe Mockup */
+    .buyer-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+    }
+
+    .buyer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .buyer-header-title { font-size: 14px; font-weight: 600; }
+
+    .buyer-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(30,30,46,0.5);
+    }
+    .buyer-row:last-child { border-bottom: none; }
+
+    .buyer-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(27,95,217,0.15);
+      border: 1px solid rgba(27,95,217,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .buyer-info { flex: 1; }
+    .buyer-name { font-size: 13px; font-weight: 600; color: var(--white); }
+    .buyer-type { font-size: 11px; color: var(--muted); }
+
+    .buyer-score-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; min-width: 72px; }
+    .buyer-score-pct { font-size: 12px; font-weight: 700; color: var(--accent); }
+    .buyer-score-bar { width: 72px; height: 4px; background: rgba(30,30,46,0.8); border-radius: 100px; overflow: hidden; }
+    .buyer-score-fill { height: 100%; background: var(--accent); border-radius: 100px; }
+
+    @media (max-width: 900px) {
+      .ai-inner { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    /* =============================================
+       CTA BANNER
+    ============================================= */
+    #cta-banner {
+      padding: 80px 0;
+    }
+
+    .cta-banner-inner {
+      background: var(--accent);
+      border-radius: 24px;
+      padding: 72px 48px;
+      text-align: center;
+    }
+
+    .cta-banner-inner h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+
+    .cta-banner-inner h2 .accent-italic { color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 600px) {
+      .cta-banner-inner { padding: 48px 24px; }
+    }
+
+    /* =============================================
+       EMAIL SIGNUP
+    ============================================= */
+    #signup {
+      padding: 100px 0;
+    }
+
+    .signup-inner {
+      max-width: 560px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .signup-inner h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      margin-bottom: 16px;
+    }
+
+    .signup-inner .sub {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 36px;
+    }
+
+    .email-form {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .email-input {
+      flex: 1;
+      padding: 13px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--white);
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .email-input::placeholder { color: rgba(136,136,170,0.6); }
+    .email-input:focus { border-color: rgba(27,95,217,0.5); box-shadow: 0 0 0 3px rgba(27,95,217,0.1); }
+
+    .privacy-note {
+      font-size: 12px;
+      color: rgba(136,136,170,0.6);
+    }
+
+    .success-msg {
+      display: none;
+      color: var(--green);
+      font-weight: 600;
+      font-size: 16px;
+      padding: 16px;
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.2);
+      border-radius: 8px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 480px) {
+      .email-form { flex-direction: column; }
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo { display: flex; flex-direction: column; gap: 6px; }
+    .footer-tagline { font-size: 12px; color: var(--muted); }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-size: 14px;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: rgba(136,136,170,0.5);
+    }
+
+    @media (max-width: 768px) {
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: 28px; }
+      .footer-right { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* =============================================
+       SECTION PADDING
+    ============================================= */
+    section { padding-top: 100px; padding-bottom: 100px; }
+
+    /* =============================================
+       SCROLLBAR STYLING
+    ============================================= */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================
+       CUSTOM CURSOR
+  ============================================= -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-glow"></div>
+
+  <!-- ============================================
+       MOBILE MENU
+  ============================================= -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about"    onclick="closeMobile()" data-de="Über uns"  data-en="About">Über uns</a>
+    <a href="#features" onclick="closeMobile()" data-de="Features"  data-en="Features">Features</a>
+    <a href="#process"  onclick="closeMobile()" data-de="Prozess"   data-en="Process">Prozess</a>
+    <a href="#signup"   onclick="closeMobile()" data-de="Kontakt"   data-en="Contact">Kontakt</a>
+    <div class="lang-toggle" style="margin-top:16px;">
+      <button class="lang-btn active" id="mLangDE" onclick="setLang('de')">DE</button>
+      <button class="lang-btn"        id="mLangEN" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="#signup" onclick="closeMobile()" class="btn btn-primary" style="margin-top:8px;" data-de="Frühen Zugang sichern" data-en="Get Early Access">Frühen Zugang sichern</a>
+  </div>
+
+  <!-- ============================================
+       NAVBAR
+  ============================================= -->
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <!-- Logo -->
+        <a href="#" class="logo" aria-label="Mandato">
+          <div class="logo-icon">
+            <span></span><span></span><span></span>
+          </div>
+          <span class="logo-word">Mandato</span>
+        </a>
+
+        <!-- Nav Links -->
+        <ul class="nav-links">
+          <li><a href="#about"    data-de="Über uns"  data-en="About">Über uns</a></li>
+          <li><a href="#features" data-de="Features"  data-en="Features">Features</a></li>
+          <li><a href="#process"  data-de="Prozess"   data-en="Process">Prozess</a></li>
+          <li><a href="#signup"   data-de="Kontakt"   data-en="Contact">Kontakt</a></li>
+        </ul>
+
+        <!-- Right Controls -->
+        <div class="nav-right">
+          <div class="lang-toggle">
+            <button class="lang-btn active" id="navLangDE" onclick="setLang('de')">DE</button>
+            <button class="lang-btn"        id="navLangEN" onclick="setLang('en')">EN</button>
+          </div>
+          <a href="#signup" class="btn btn-primary" data-de="Early Access" data-en="Early Access">Early Access</a>
+          <button class="hamburger" id="hamburger" onclick="toggleMobile()" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================
+       SECTION 2: HERO
+  ============================================= -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-inner">
+        <!-- Left: Text -->
+        <div class="hero-text fade-in">
+          <div class="hero-eyebrow-pill">
+            <i data-lucide="zap"></i>
+            <span data-de="KI-gestützte M&amp;A Automatisierung" data-en="AI-powered M&amp;A Automation">KI-gestützte M&amp;A Automatisierung</span>
+          </div>
+
+          <h1 class="hero-headline">
+            <span data-de="M&amp;A-Prozesse die sich" data-en="M&amp;A processes that">M&amp;A-Prozesse die sich</span><br>
+            <span class="accent-italic" data-de="selbst erledigen." data-en="run themselves.">selbst erledigen.</span>
+          </h1>
+
+          <p class="hero-sub" data-de="Damit Sie sich auf Mandate und Verhandlungen konzentrieren." data-en="So you can focus on mandates and negotiations.">
+            Damit Sie sich auf Mandate und Verhandlungen konzentrieren.
+          </p>
+
+          <a href="#signup" class="btn btn-primary" style="font-size:16px; padding:14px 28px;"
+             data-de="Frühen Zugang sichern" data-en="Get Early Access">
+            Frühen Zugang sichern
+          </a>
+        </div>
+
+        <!-- Right: Mockup -->
+        <div class="hero-mockup fade-in fade-in-delay-2">
+          <div style="position:relative; padding: 20px;">
+            <div class="mockup-card">
+              <!-- Header -->
+              <div class="mockup-header">
+                <div class="mockup-dot"></div>
+                <span class="mockup-header-title" data-de="Deal Dashboard" data-en="Deal Dashboard">Deal Dashboard</span>
+                <span class="badge badge-blue" style="margin-left:auto; font-size:11px;" data-de="Aktiv" data-en="Active">Aktiv</span>
+              </div>
+
+              <!-- Row 1 -->
+              <div class="mockup-row">
+                <div>
+                  <div class="mockup-row-value" data-de="NDA unterzeichnet" data-en="NDA signed">NDA unterzeichnet</div>
+                  <div class="mockup-row-label" data-de="4 Interessenten" data-en="4 interested parties">4 Interessenten</div>
+                </div>
+                <span class="badge badge-green">✓</span>
+              </div>
+
+              <!-- Row 2 -->
+              <div class="mockup-row">
+                <div>
+                  <div class="mockup-row-value" data-de="Buyer Universe" data-en="Buyer Universe">Buyer Universe</div>
+                  <div class="mockup-row-label" data-de="12 Kandidaten" data-en="12 candidates">12 Kandidaten</div>
+                </div>
+                <span class="badge badge-blue" data-de="KI" data-en="AI">KI</span>
+              </div>
+
+              <!-- Row 3 -->
+              <div class="mockup-row">
+                <div>
+                  <div class="mockup-row-value" data-de="Teaser" data-en="Teaser">Teaser</div>
+                  <div class="mockup-row-label" data-de="Live" data-en="Live">Live</div>
+                </div>
+                <span class="badge badge-green">↑ Live</span>
+              </div>
+
+              <!-- Progress area -->
+              <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                  <span style="font-size:12px; color:var(--muted);" data-de="Prozessfortschritt" data-en="Process progress">Prozessfortschritt</span>
+                  <span style="font-size:12px; font-weight:700; color:var(--accent);">60%</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:60%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Badges -->
+            <div class="float-badge float-badge-1" data-de="80% weniger Aufwand" data-en="80% less effort">80% weniger Aufwand</div>
+            <div class="float-badge float-badge-2" data-de="5 Phasen automatisiert" data-en="5 phases automated">5 Phasen automatisiert</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 3: PROBLEM
+  ============================================= -->
+  <section id="about" style="padding: 100px 0; background: linear-gradient(180deg, transparent, rgba(27,95,217,0.02), transparent);">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="eyebrow" data-de="DAS PROBLEM" data-en="THE PROBLEM">DAS PROBLEM</span>
+        <h2>
+          <span data-de="M&amp;A ist zu wichtig für" data-en="M&amp;A is too important">M&amp;A ist zu wichtig für</span><br>
+          <span class="accent-italic" data-de="Excel und E-Mail." data-en="Excel and email.">Excel und E-Mail.</span>
+        </h2>
+        <p data-de="Berater verbringen zu viel Zeit mit administrativen Aufgaben. Das ändern wir." data-en="Advisors spend too much time on administrative tasks. We're changing that.">
+          Berater verbringen zu viel Zeit mit administrativen Aufgaben. Das ändern wir.
+        </p>
+      </div>
+
+      <div class="problem-cards">
+        <!-- Card 1 -->
+        <div class="card fade-in fade-in-delay-1">
+          <div class="icon-wrap">
+            <i data-lucide="clock" style="width:22px;height:22px;"></i>
+          </div>
+          <h3 data-de="Stunden für Teasers" data-en="Hours on teasers">Stunden für Teasers</h3>
+          <p data-de="Jeder Teaser wird manuell in Word erstellt. Immer wieder von vorne." data-en="Every teaser built manually in Word. From scratch every time.">
+            Jeder Teaser wird manuell in Word erstellt. Immer wieder von vorne.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card fade-in fade-in-delay-2">
+          <div class="icon-wrap">
+            <i data-lucide="search" style="width:22px;height:22px;"></i>
+          </div>
+          <h3 data-de="Käufer manuell recherchieren" data-en="Manual buyer research">Käufer manuell recherchieren</h3>
+          <p data-de="Tage an Google, LinkedIn und Datenbanken — für jeden Deal neu." data-en="Days on Google, LinkedIn, databases — repeated for every deal.">
+            Tage an Google, LinkedIn und Datenbanken — für jeden Deal neu.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card fade-in fade-in-delay-3">
+          <div class="icon-wrap">
+            <i data-lucide="mail" style="width:22px;height:22px;"></i>
+          </div>
+          <h3 data-de="NDA per E-Mail" data-en="NDA by email">NDA per E-Mail</h3>
+          <p data-de="Versenden, nachfassen, tracken — alles manuell. Kein Überblick." data-en="Send, follow up, track — all manual. No overview.">
+            Versenden, nachfassen, tracken — alles manuell. Kein Überblick.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 4: M&A PROZESS
+  ============================================= -->
+  <section id="process">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="eyebrow" data-de="DER PROZESS" data-en="THE PROCESS">DER PROZESS</span>
+        <h2>
+          <span data-de="Wir verstehen M&amp;A." data-en="We understand M&amp;A.">Wir verstehen M&amp;A.</span><br>
+          <span class="accent-italic" data-de="Von Anfang bis Ende." data-en="From start to finish.">Von Anfang bis Ende.</span>
+        </h2>
+        <p data-de="Mandato begleitet jeden Schritt des Verkaufsprozesses — und automatisiert was automatisiert werden kann." data-en="Mandato covers every step of the sales process — and automates what can be automated.">
+          Mandato begleitet jeden Schritt des Verkaufsprozesses — und automatisiert was automatisiert werden kann.
+        </p>
+      </div>
+
+      <div class="phase-cards">
+        <!-- Phase 01 -->
+        <div class="card phase-card fade-in fade-in-delay-1">
+          <div class="phase-number">01</div>
+          <div class="icon-wrap" style="width:40px;height:40px;border-radius:10px;margin-bottom:12px;">
+            <i data-lucide="layout" style="width:18px;height:18px;"></i>
+          </div>
+          <h3 data-de="Vorbereitung &amp; Teaser" data-en="Preparation &amp; Teaser">Vorbereitung &amp; Teaser</h3>
+          <p data-de="Positionierung, Bewertung, Marketing-Materialien" data-en="Positioning, valuation, marketing materials">
+            Positionierung, Bewertung, Marketing-Materialien
+          </p>
+          <span class="badge badge-blue" data-de="KI-generiert" data-en="AI-generated">KI-generiert</span>
+        </div>
+
+        <!-- Phase 02 -->
+        <div class="card phase-card fade-in fade-in-delay-2">
+          <div class="phase-number">02</div>
+          <div class="icon-wrap" style="width:40px;height:40px;border-radius:10px;margin-bottom:12px;">
+            <i data-lucide="users" style="width:18px;height:18px;"></i>
+          </div>
+          <h3 data-de="Käufer-Ansprache" data-en="Buyer Outreach">Käufer-Ansprache</h3>
+          <p data-de="Buyer Universe, Long List, Erstkontakt" data-en="Buyer universe, long list, first contact">
+            Buyer Universe, Long List, Erstkontakt
+          </p>
+          <span class="badge badge-blue" data-de="Automatisch" data-en="Automated">Automatisch</span>
+        </div>
+
+        <!-- Phase 03 -->
+        <div class="card phase-card fade-in fade-in-delay-3">
+          <div class="phase-number">03</div>
+          <div class="icon-wrap" style="width:40px;height:40px;border-radius:10px;margin-bottom:12px;">
+            <i data-lucide="shield" style="width:18px;height:18px;"></i>
+          </div>
+          <h3 data-de="NDA &amp; Due Diligence" data-en="NDA &amp; Due Diligence">NDA &amp; Due Diligence</h3>
+          <p data-de="Vertraulichkeit, Datenraum, Q&amp;A Management" data-en="Confidentiality, data room, Q&amp;A management">
+            Vertraulichkeit, Datenraum, Q&amp;A Management
+          </p>
+          <span class="badge badge-blue" data-de="Vollständig digital" data-en="Fully digital">Vollständig digital</span>
+        </div>
+
+        <!-- Phase 04 -->
+        <div class="card phase-card fade-in fade-in-delay-4">
+          <div class="phase-number">04</div>
+          <div class="icon-wrap" style="width:40px;height:40px;border-radius:10px;margin-bottom:12px;">
+            <i data-lucide="pen-tool" style="width:18px;height:18px;"></i>
+          </div>
+          <h3 data-de="Signing &amp; Closing" data-en="Signing &amp; Closing">Signing &amp; Closing</h3>
+          <p data-de="Verhandlung, SPA, Abschluss" data-en="Negotiation, SPA, closing">
+            Verhandlung, SPA, Abschluss
+          </p>
+          <span class="badge badge-gray" data-de="Berater-Domäne" data-en="Advisor domain">Berater-Domäne</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 5: FEATURES
+  ============================================= -->
+  <section id="features" style="background: linear-gradient(180deg, transparent, rgba(27,95,217,0.03), transparent);">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="eyebrow" data-de="FEATURES" data-en="FEATURES">FEATURES</span>
+        <h2>
+          <span data-de="Alles auf einem Fleck." data-en="Everything in one place.">Alles auf einem Fleck.</span><br>
+          <span class="accent-italic" data-de="Vollständig automatisiert." data-en="Fully automated.">Vollständig automatisiert.</span>
+        </h2>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature 01 -->
+        <div class="feat-card fade-in fade-in-delay-1">
+          <div class="feat-number">01</div>
+          <div class="feat-icon"><i data-lucide="layout-template" style="width:20px;height:20px;"></i></div>
+          <h3 data-de="Deal Landing Page" data-en="Deal Landing Page">Deal Landing Page</h3>
+          <p data-de="KI generiert in Minuten eine professionelle Deal-Seite aus der Unternehmens-URL." data-en="AI generates a professional deal page from the company URL in minutes.">
+            KI generiert in Minuten eine professionelle Deal-Seite aus der Unternehmens-URL.
+          </p>
+        </div>
+
+        <!-- Feature 02 -->
+        <div class="feat-card fade-in fade-in-delay-2">
+          <div class="feat-number">02</div>
+          <div class="feat-icon"><i data-lucide="file-signature" style="width:20px;height:20px;"></i></div>
+          <h3 data-de="Automatischer NDA-Workflow" data-en="Automated NDA Workflow">Automatischer NDA-Workflow</h3>
+          <p data-de="Generierung, Versand und digitale Signatur — vollständig automatisiert." data-en="Generation, sending, and digital signature — fully automated.">
+            Generierung, Versand und digitale Signatur — vollständig automatisiert.
+          </p>
+        </div>
+
+        <!-- Feature 03 -->
+        <div class="feat-card fade-in fade-in-delay-3">
+          <div class="feat-number">03</div>
+          <div class="feat-icon"><i data-lucide="search" style="width:20px;height:20px;"></i></div>
+          <h3 data-de="Buyer Universe" data-en="Buyer Universe">Buyer Universe</h3>
+          <p data-de="KI recherchiert strategische Käufer, PE-Fonds und angrenzende Industrien." data-en="AI researches strategic buyers, PE funds, and adjacent industries.">
+            KI recherchiert strategische Käufer, PE-Fonds und angrenzende Industrien.
+          </p>
+        </div>
+
+        <!-- Feature 04 -->
+        <div class="feat-card fade-in fade-in-delay-1">
+          <div class="feat-number">04</div>
+          <div class="feat-icon"><i data-lucide="file-text" style="width:20px;height:20px;"></i></div>
+          <h3 data-de="Informationsmemorandum" data-en="Information Memorandum">Informationsmemorandum</h3>
+          <p data-de="Vollständiges IM automatisch generiert aus den Deal-Daten." data-en="Complete IM automatically generated from deal data.">
+            Vollständiges IM automatisch generiert aus den Deal-Daten.
+          </p>
+        </div>
+
+        <!-- Feature 05 – Blue card -->
+        <div class="feat-card feat-card-blue fade-in fade-in-delay-2" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="feat-number">05</div>
+            <div class="feat-icon"><i data-lucide="sparkles" style="width:20px;height:20px;"></i></div>
+            <h3 data-de="Und vieles mehr" data-en="And much more">Und vieles mehr</h3>
+            <p data-de="Mandato wächst mit Ihrem Prozess. Neue Features werden kontinuierlich ergänzt." data-en="Mandato grows with your process. New features added continuously.">
+              Mandato wächst mit Ihrem Prozess. Neue Features werden kontinuierlich ergänzt.
+            </p>
+          </div>
+          <div style="margin-top:24px;">
+            <a href="#signup" class="btn btn-white" style="width:100%; justify-content:center;"
+               data-de="Mehr erfahren" data-en="Learn more">Mehr erfahren</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 6: AI SECTION
+  ============================================= -->
+  <section id="ai-section">
+    <div class="container">
+      <div class="ai-inner">
+        <!-- Left: Text -->
+        <div class="fade-in">
+          <span class="eyebrow" style="margin-bottom:20px;display:inline-block;" data-de="KI-INTELLIGENZ" data-en="AI INTELLIGENCE">KI-INTELLIGENZ</span>
+          <h2 class="ai-headline">
+            <span data-de="KI die M&amp;A" data-en="AI that truly">KI die M&amp;A</span><br>
+            <span class="accent-italic" data-de="wirklich versteht." data-en="understands M&amp;A.">wirklich versteht.</span>
+          </h2>
+
+          <ul class="ai-bullets">
+            <li>
+              <span class="check">✓</span>
+              <span data-de="M&amp;A-spezifisches Prozesswissen" data-en="M&amp;A-specific process knowledge">M&amp;A-spezifisches Prozesswissen</span>
+            </li>
+            <li>
+              <span class="check">✓</span>
+              <span data-de="Käufer-Analyse in Minuten statt Tagen" data-en="Buyer analysis in minutes, not days">Käufer-Analyse in Minuten statt Tagen</span>
+            </li>
+            <li>
+              <span class="check">✓</span>
+              <span data-de="Dokumente die sofort einsatzbereit sind" data-en="Documents ready to use immediately">Dokumente die sofort einsatzbereit sind</span>
+            </li>
+          </ul>
+
+          <a href="#signup" class="btn btn-primary"
+             data-de="Frühen Zugang sichern" data-en="Get Early Access">Frühen Zugang sichern</a>
+
+          <div class="star-row">
+            <span class="stars">★★★★★</span>
+            <span class="star-label" data-de="Entwickelt mit M&amp;A-Experten" data-en="Built with M&amp;A experts">Entwickelt mit M&amp;A-Experten</span>
+          </div>
+        </div>
+
+        <!-- Right: Buyer Universe Mockup -->
+        <div class="buyer-card fade-in fade-in-delay-2">
+          <div class="buyer-header">
+            <span class="buyer-header-title" data-de="Buyer Universe · 12 Kandidaten" data-en="Buyer Universe · 12 Candidates">Buyer Universe · 12 Kandidaten</span>
+            <span class="badge badge-blue" data-de="KI-Analyse" data-en="AI Analysis">KI-Analyse</span>
+          </div>
+
+          <!-- Buyer 1 -->
+          <div class="buyer-row">
+            <div class="buyer-avatar">AB</div>
+            <div class="buyer-info">
+              <div class="buyer-name">Acme Industries GmbH</div>
+              <div class="buyer-type" data-de="Strategisch · Deutschland" data-en="Strategic · Germany">Strategisch · Deutschland</div>
+            </div>
+            <div class="buyer-score-wrap">
+              <div class="buyer-score-pct">94%</div>
+              <div class="buyer-score-bar"><div class="buyer-score-fill" style="width:94%;"></div></div>
+            </div>
+          </div>
+
+          <!-- Buyer 2 -->
+          <div class="buyer-row">
+            <div class="buyer-avatar" style="background:rgba(139,92,246,0.15);border-color:rgba(139,92,246,0.2);color:#a78bfa;">PE</div>
+            <div class="buyer-info">
+              <div class="buyer-name">Nordcap Private Equity</div>
+              <div class="buyer-type" data-de="PE-Fonds · DACH" data-en="PE Fund · DACH">PE-Fonds · DACH</div>
+            </div>
+            <div class="buyer-score-wrap">
+              <div class="buyer-score-pct">88%</div>
+              <div class="buyer-score-bar"><div class="buyer-score-fill" style="width:88%;"></div></div>
+            </div>
+          </div>
+
+          <!-- Buyer 3 -->
+          <div class="buyer-row">
+            <div class="buyer-avatar" style="background:rgba(34,197,94,0.12);border-color:rgba(34,197,94,0.2);color:var(--green);">ST</div>
+            <div class="buyer-info">
+              <div class="buyer-name">Steinbauer Holding AG</div>
+              <div class="buyer-type" data-de="Strategisch · Österreich" data-en="Strategic · Austria">Strategisch · Österreich</div>
+            </div>
+            <div class="buyer-score-wrap">
+              <div class="buyer-score-pct">81%</div>
+              <div class="buyer-score-bar"><div class="buyer-score-fill" style="width:81%;"></div></div>
+            </div>
+          </div>
+
+          <div style="text-align:center; margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">
+            <span style="font-size:12px; color:var(--muted);" data-de="+ 9 weitere Kandidaten analysiert" data-en="+ 9 more candidates analyzed">+ 9 weitere Kandidaten analysiert</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 7: CTA BANNER
+  ============================================= -->
+  <section id="cta-banner" style="padding: 60px 0;">
+    <div class="container">
+      <div class="cta-banner-inner fade-in">
+        <h2>
+          <span data-de="Bereit den M&amp;A-Prozess" data-en="Ready to reimagine">Bereit den M&amp;A-Prozess</span><br>
+          <em data-de="neu zu denken?" data-en="the M&amp;A process?">neu zu denken?</em>
+        </h2>
+        <a href="#signup" class="btn btn-white" style="font-size:16px; padding:14px 32px;"
+           data-de="Frühen Zugang sichern" data-en="Get Early Access">Frühen Zugang sichern</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 8: EMAIL SIGNUP
+  ============================================= -->
+  <section id="signup">
+    <div class="container">
+      <div class="signup-inner fade-in">
+        <span class="eyebrow" style="margin-bottom:16px;display:block;">EARLY ACCESS</span>
+        <h2 data-de="Als Erste dabei sein." data-en="Be among the first.">Als Erste dabei sein.</h2>
+        <p class="sub" data-de="Mandato befindet sich in der Entwicklung. Tragen Sie sich ein und erhalten Sie exklusiven Früh-Zugang." data-en="Mandato is in development. Sign up and get exclusive early access.">
+          Mandato befindet sich in der Entwicklung. Tragen Sie sich ein und erhalten Sie exklusiven Früh-Zugang.
+        </p>
+
+        <form class="email-form" id="signupForm" onsubmit="handleSignup(event)">
+          <input
+            type="email"
+            class="email-input"
+            id="emailInput"
+            required
+            data-de-placeholder="Ihre E-Mail-Adresse"
+            data-en-placeholder="Your email address"
+            placeholder="Ihre E-Mail-Adresse"
+          />
+          <button type="submit" class="btn btn-primary" id="signupBtn"
+                  data-de="Zugang sichern" data-en="Secure access">Zugang sichern</button>
+        </form>
+
+        <div class="success-msg" id="successMsg">
+          <span class="de-text">✓ Vielen Dank! Wir melden uns.</span>
+          <span class="en-text" style="display:none;">✓ Thank you! We'll be in touch.</span>
+        </div>
+
+        <p class="privacy-note" data-de="Keine Weitergabe an Dritte. Jederzeit abmeldbar." data-en="No data sharing. Unsubscribe anytime.">
+          Keine Weitergabe an Dritte. Jederzeit abmeldbar.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+  ============================================= -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <!-- Logo + Tagline -->
+        <div class="footer-logo">
+          <div class="logo logo-white">
+            <div class="logo-icon"><span></span><span></span><span></span></div>
+            <span class="logo-word">Mandato</span>
+          </div>
+          <span class="footer-tagline" data-de="KI-gestützte M&amp;A Automatisierung" data-en="AI-powered M&amp;A Automation">KI-gestützte M&amp;A Automatisierung</span>
+        </div>
+
+        <!-- Links -->
+        <ul class="footer-links">
+          <li><a href="#about"    data-de="Über uns"  data-en="About">Über uns</a></li>
+          <li><a href="#features" data-de="Features"  data-en="Features">Features</a></li>
+          <li><a href="#process"  data-de="Prozess"   data-en="Process">Prozess</a></li>
+          <li><a href="#signup"   data-de="Kontakt"   data-en="Contact">Kontakt</a></li>
+        </ul>
+
+        <!-- Right -->
+        <div class="footer-right">
+          <div class="lang-toggle">
+            <button class="lang-btn active" id="footLangDE" onclick="setLang('de')">DE</button>
+            <button class="lang-btn"        id="footLangEN" onclick="setLang('en')">EN</button>
+          </div>
+          <span class="footer-copy">
+            <span data-de="© 2026 Mandato. Alle Rechte vorbehalten." data-en="© 2026 Mandato. All rights reserved.">© 2026 Mandato. Alle Rechte vorbehalten.</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ============================================
+       JAVASCRIPT
+  ============================================= -->
+  <script>
+
+    // =============================================
+    // Lucide Icons Init
+    // =============================================
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+
+    // =============================================
+    // Custom Cursor
+    // =============================================
+    const dot  = document.getElementById('cursor-dot');
+    const glow = document.getElementById('cursor-glow');
+    let mouseX = -100, mouseY = -100;
+    let glowX  = -100, glowY  = -100;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.left = mouseX + 'px';
+      dot.style.top  = mouseY + 'px';
+    });
+
+    // Smooth glow trail
+    function animateGlow() {
+      glowX += (mouseX - glowX) * 0.12;
+      glowY += (mouseY - glowY) * 0.12;
+      glow.style.left = glowX + 'px';
+      glow.style.top  = glowY + 'px';
+      requestAnimationFrame(animateGlow);
+    }
+    animateGlow();
+
+    // Scale cursor on hover over clickables
+    document.querySelectorAll('a, button, .btn, input').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        dot.style.transform  = 'translate(-50%,-50%) scale(2)';
+        glow.style.transform = 'translate(-50%,-50%) scale(1.8)';
+      });
+      el.addEventListener('mouseleave', () => {
+        dot.style.transform  = 'translate(-50%,-50%) scale(1)';
+        glow.style.transform = 'translate(-50%,-50%) scale(1)';
+      });
+    });
+
+    // =============================================
+    // Navbar Scroll Behavior
+    // =============================================
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // =============================================
+    // Mobile Menu
+    // =============================================
+    const hamburger   = document.getElementById('hamburger');
+    const mobileMenu  = document.getElementById('mobileMenu');
+    let menuOpen = false;
+
+    function toggleMobile() {
+      menuOpen = !menuOpen;
+      hamburger.classList.toggle('open', menuOpen);
+      mobileMenu.classList.toggle('open', menuOpen);
+      document.body.style.overflow = menuOpen ? 'hidden' : '';
+    }
+
+    function closeMobile() {
+      menuOpen = false;
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // =============================================
+    // Language Switching (DE / EN)
+    // =============================================
+    let currentLang = 'de';
+
+    function setLang(lang) {
+      currentLang = lang;
+
+      // Update all [data-de] / [data-en] text nodes
+      document.querySelectorAll('[data-de]').forEach(el => {
+        const txt = el.getAttribute('data-' + lang);
+        if (txt !== null) el.innerHTML = txt;
+      });
+
+      // Update email input placeholder
+      const emailInput = document.getElementById('emailInput');
+      if (emailInput) {
+        emailInput.placeholder = emailInput.getAttribute('data-' + lang + '-placeholder');
+      }
+
+      // Update success message visibility
+      document.querySelectorAll('.de-text').forEach(el => {
+        el.style.display = lang === 'de' ? '' : 'none';
+      });
+      document.querySelectorAll('.en-text').forEach(el => {
+        el.style.display = lang === 'en' ? '' : 'none';
+      });
+
+      // Update HTML lang attribute
+      document.documentElement.lang = lang;
+
+      // Update page title
+      document.title = lang === 'de'
+        ? 'Mandato – KI-gestützte M&A Automatisierung'
+        : 'Mandato – AI-powered M&A Automation';
+
+      // Update all language toggle buttons
+      ['navLangDE','navLangEN','footLangDE','footLangEN','mLangDE','mLangEN'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        const btnLang = id.includes('EN') ? 'en' : 'de';
+        btn.classList.toggle('active', btnLang === lang);
+      });
+    }
+
+    // =============================================
+    // Scroll Fade-In (IntersectionObserver)
+    // =============================================
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    fadeEls.forEach(el => observer.observe(el));
+
+    // =============================================
+    // Email Signup — Brevo (Sendinblue) Integration
+    // =============================================
+    async function handleSignup(e) {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value.trim();
+      if (!email) return;
+
+      const btn = document.getElementById('signupBtn');
+      btn.disabled = true;
+      btn.textContent = currentLang === 'de' ? 'Wird gesendet...' : 'Sending...';
+
+      // API key is stored server-side in Vercel env vars — never exposed to the browser
+      try {
+        await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+      } catch (_) {
+        // Network errors are swallowed — UX still shows success
+      }
+
+      // Show success message
+      document.getElementById('signupForm').style.display = 'none';
+      const msg = document.getElementById('successMsg');
+      msg.style.display = 'block';
+      document.querySelector('.de-text').style.display = currentLang === 'de' ? '' : 'none';
+      document.querySelector('.en-text').style.display = currentLang === 'en' ? '' : 'none';
+    }
+
+    // =============================================
+    // Smooth scroll for all anchor links
+    // =============================================
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+  </script>
+</body>
+</html>

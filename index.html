@@ -509,6 +509,39 @@
     .mockup-row-label { font-size: 13px; color: var(--muted); }
     .mockup-row-value { font-size: 12px; font-weight: 600; color: var(--white); }
 
+    /* Mandate rows in dashboard mockup */
+    .mandate-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      gap: 12px;
+    }
+    .mandate-row:last-of-type { border-bottom: none; }
+    .mandate-name { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 3px; }
+    .mandate-meta { font-size: 11px; color: rgba(255,255,255,0.45); }
+    .mandate-row.archived .mandate-name { opacity: 0.5; }
+    .mandate-row.archived .mandate-meta { opacity: 0.4; }
+
+    /* Mockup footer stats */
+    .mockup-stats {
+      display: flex;
+      gap: 0;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .mockup-stat {
+      flex: 1;
+      text-align: center;
+      padding: 0 8px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .mockup-stat:last-child { border-right: none; }
+    .mockup-stat-num { font-size: 17px; font-weight: 700; color: var(--accent); }
+    .mockup-stat-lbl { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
     /* Floating badges */
     .float-badge {
       position: absolute;
@@ -1091,50 +1124,66 @@
         <div class="hero-mockup fade-in fade-in-delay-2">
           <div style="position:relative; padding: 20px;">
             <div class="mockup-card">
+
               <!-- Header -->
               <div class="mockup-header">
                 <div class="mockup-dot"></div>
-                <span class="mockup-header-title" data-de="Deal Dashboard" data-en="Deal Dashboard">Deal Dashboard</span>
-                <span class="badge badge-blue" style="margin-left:auto; font-size:11px;" data-de="Aktiv" data-en="Active">Aktiv</span>
+                <span class="mockup-header-title" data-de="Mandate Übersicht" data-en="Mandate Overview">Mandate Übersicht</span>
+                <span class="badge badge-blue" style="margin-left:auto; font-size:11px;" data-de="3 aktiv" data-en="3 active">3 aktiv</span>
               </div>
 
-              <!-- Row 1 -->
-              <div class="mockup-row">
+              <!-- Mandate 1 -->
+              <div class="mandate-row">
                 <div>
-                  <div class="mockup-row-value" data-de="NDA unterzeichnet" data-en="NDA signed">NDA unterzeichnet</div>
-                  <div class="mockup-row-label" data-de="4 Interessenten" data-en="4 interested parties">4 Interessenten</div>
+                  <div class="mandate-name">Muster GmbH</div>
+                  <div class="mandate-meta" data-de="6 Interessenten · 12 Kandidaten · Phase 3" data-en="6 interested parties · 12 candidates · Phase 3">6 Interessenten · 12 Kandidaten · Phase 3</div>
                 </div>
-                <span class="badge badge-green">✓</span>
+                <span class="badge badge-green" data-de="Aktiv" data-en="Active">Aktiv</span>
               </div>
 
-              <!-- Row 2 -->
-              <div class="mockup-row">
+              <!-- Mandate 2 -->
+              <div class="mandate-row">
                 <div>
-                  <div class="mockup-row-value" data-de="Buyer Universe" data-en="Buyer Universe">Buyer Universe</div>
-                  <div class="mockup-row-label" data-de="12 Kandidaten" data-en="12 candidates">12 Kandidaten</div>
+                  <div class="mandate-name">Alpha Industries AG</div>
+                  <div class="mandate-meta" data-de="4 Interessenten · 8 Kandidaten · Phase 2" data-en="4 interested parties · 8 candidates · Phase 2">4 Interessenten · 8 Kandidaten · Phase 2</div>
                 </div>
-                <span class="badge badge-blue" data-de="KI" data-en="AI">KI</span>
+                <span class="badge badge-blue" data-de="Aktiv" data-en="Active">Aktiv</span>
               </div>
 
-              <!-- Row 3 -->
-              <div class="mockup-row">
+              <!-- Mandate 3 -->
+              <div class="mandate-row">
                 <div>
-                  <div class="mockup-row-value" data-de="Teaser" data-en="Teaser">Teaser</div>
-                  <div class="mockup-row-label" data-de="Live" data-en="Live">Live</div>
+                  <div class="mandate-name">Beta Holding GmbH</div>
+                  <div class="mandate-meta" data-de="2 Interessenten · 15 Kandidaten · Phase 1" data-en="2 interested parties · 15 candidates · Phase 1">2 Interessenten · 15 Kandidaten · Phase 1</div>
                 </div>
-                <span class="badge badge-green">↑ Live</span>
+                <span class="badge badge-blue" data-de="Aktiv" data-en="Active">Aktiv</span>
               </div>
 
-              <!-- Progress area -->
-              <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);">
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                  <span style="font-size:12px; color:var(--muted);" data-de="Prozessfortschritt" data-en="Process progress">Prozessfortschritt</span>
-                  <span style="font-size:12px; font-weight:700; color:var(--accent);">60%</span>
+              <!-- Mandate 4 – archived -->
+              <div class="mandate-row archived">
+                <div>
+                  <div class="mandate-name">Gamma Tech GmbH & Co. KG</div>
+                  <div class="mandate-meta" data-de="Abgeschlossen · 2024" data-en="Closed · 2024">Abgeschlossen · 2024</div>
                 </div>
-                <div class="progress-track">
-                  <div class="progress-fill" style="width:60%;"></div>
+                <span class="badge badge-gray" data-de="Archiv" data-en="Archive">Archiv</span>
+              </div>
+
+              <!-- Footer stats -->
+              <div class="mockup-stats">
+                <div class="mockup-stat">
+                  <div class="mockup-stat-num">3</div>
+                  <div class="mockup-stat-lbl" data-de="Aktiv" data-en="Active">Aktiv</div>
+                </div>
+                <div class="mockup-stat">
+                  <div class="mockup-stat-num">12</div>
+                  <div class="mockup-stat-lbl" data-de="Interessenten" data-en="Interested">Interessenten</div>
+                </div>
+                <div class="mockup-stat">
+                  <div class="mockup-stat-num">35</div>
+                  <div class="mockup-stat-lbl" data-de="Kandidaten" data-en="Candidates">Kandidaten</div>
                 </div>
               </div>
+
             </div>
 
             <!-- Floating Badges -->

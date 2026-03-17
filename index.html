@@ -6,10 +6,10 @@
   <title>Mandato – KI-gestützte M&A Automatisierung</title>
   <meta name="description" content="Mandato automatisiert den gesamten M&A-Prozess für Finanzberater – von Teaser bis Signing." />
 
-  <!-- Google Fonts: Inter -->
+  <!-- Google Fonts: Inter + Nunito (logo wordmark) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Nunito:wght@800&display=swap" rel="stylesheet" />
 
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
@@ -262,30 +262,21 @@
       flex-shrink: 0;
     }
 
-    .logo-icon {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+    .logo-icon svg { display: block; }
 
-    .logo-icon span {
-      display: block;
-      height: 18px;
-      border-radius: 2px;
-      background: var(--accent);
-    }
-    .logo-icon span:nth-child(1) { width: 4px; transform: skewX(-20deg); }
-    .logo-icon span:nth-child(2) { width: 4px; transform: skewX(-20deg); }
-    .logo-icon span:nth-child(3) { width: 4px; transform: skewX(-20deg); }
+    /* Default: blue stripes */
+    .logo-icon svg path { fill: var(--accent); }
 
     .logo-word {
-      font-size: 18px;
-      font-weight: 700;
+      font-family: 'Nunito', 'Inter', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
       color: var(--accent);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
     }
 
-    .logo-white .logo-icon span { background: var(--white); }
+    /* White version (footer / dark backgrounds) */
+    .logo-white .logo-icon svg path { fill: var(--white); }
     .logo-white .logo-word { color: var(--white); }
 
     /* Nav links pill */
@@ -1042,7 +1033,11 @@
         <!-- Logo -->
         <a href="#" class="logo" aria-label="Mandato">
           <div class="logo-icon">
-            <span></span><span></span><span></span>
+            <svg width="36" height="30" viewBox="0 0 60 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 42L14 0H26L12 42H0Z"/>
+              <path d="M19 42L33 0H45L31 42H19Z"/>
+              <path d="M38 42L52 0H64L50 42H38Z"/>
+            </svg>
           </div>
           <span class="logo-word">Mandato</span>
         </a>
@@ -1513,7 +1508,13 @@
         <!-- Logo + Tagline -->
         <div class="footer-logo">
           <div class="logo logo-white">
-            <div class="logo-icon"><span></span><span></span><span></span></div>
+            <div class="logo-icon">
+              <svg width="36" height="30" viewBox="0 0 60 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 42L14 0H26L12 42H0Z"/>
+                <path d="M19 42L33 0H45L31 42H19Z"/>
+                <path d="M38 42L52 0H64L50 42H38Z"/>
+              </svg>
+            </div>
             <span class="logo-word">Mandato</span>
           </div>
           <span class="footer-tagline" data-de="KI-gestützte M&amp;A Automatisierung" data-en="AI-powered M&amp;A Automation">KI-gestützte M&amp;A Automatisierung</span>

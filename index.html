@@ -806,6 +806,8 @@
         transition: background 0.4s;
       }
       .timeline-step[data-step="3"].done + .timeline-step[data-step="4"]::before { background: #1B5FD9; }
+      /* Step 04 done → connector to step 05 (::after on step 05) turns blue */
+      .timeline-step[data-step="4"].done + .timeline-step[data-step="5"]::after { background: #1B5FD9; }
 
       /* Horizontal connector: 06 (visual pos4) → 05 (visual pos5) via ::before on 05 */
       .timeline-step[data-step="5"]::before {

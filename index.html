@@ -816,7 +816,9 @@
         height: 2px;
         background: #e2e8f0;
         z-index: 0;
+        transition: background 0.4s;
       }
+      .timeline-step[data-step="5"].done::before { background: #1B5FD9; }
 
       .step-label { font-size: 10px; max-width: 72px; }
       .timeline-detail { flex-direction: column; padding: 24px 20px; gap: 16px; }

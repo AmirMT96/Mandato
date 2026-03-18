@@ -756,7 +756,9 @@
     @media (max-width: 768px) {
       .timeline-steps { flex-wrap: wrap; gap: 4px; }
       .timeline-step { flex: 0 0 calc(33% - 4px); }
-      .timeline-step:not(:last-child)::after { display: none; }
+      /* Show connectors within each row, hide the wrap between row 1→2 */
+      .timeline-step:not(:last-child)::after { display: block; }
+      .timeline-step:nth-child(3)::after { display: none; }
       .step-label { font-size: 10px; max-width: 72px; }
       .timeline-detail { flex-direction: column; padding: 24px 20px; gap: 16px; }
       .detail-step-bg { display: none; }

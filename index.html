@@ -754,46 +754,12 @@
 
     /* Mobile */
     @media (max-width: 768px) {
-      .ma-timeline { margin-top: 36px; }
-
-      /* Horizontal scroll row — all 6 steps in one line */
-      .timeline-steps {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        padding: 4px 0 12px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        gap: 0;
-      }
-      .timeline-steps::-webkit-scrollbar { display: none; }
-
-      .timeline-step {
-        flex: 0 0 72px;
-        min-width: 72px;
-      }
-
-      /* Restore connectors inside the scrollable row */
-      .timeline-step:not(:last-child)::after {
-        display: block;
-        top: 17px;
-        left: calc(50% + 18px);
-        right: calc(-50% + 18px);
-        height: 2px;
-      }
-
-      .step-circle { width: 36px; height: 36px; font-size: 11px; }
-      .step-label  { font-size: 10px; max-width: 66px; margin-top: 8px; }
-
-      /* Detail panel stacked */
-      .timeline-detail {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 20px;
-        gap: 14px;
-      }
+      .timeline-steps { flex-wrap: wrap; gap: 4px; }
+      .timeline-step { flex: 0 0 calc(33% - 4px); }
+      .timeline-step:not(:last-child)::after { display: none; }
+      .step-label { font-size: 10px; max-width: 72px; }
+      .timeline-detail { flex-direction: column; padding: 24px 20px; gap: 16px; }
       .detail-step-bg { display: none; }
-      .detail-body h3 { font-size: 16px; }
-      .detail-body p  { font-size: 13px; }
     }
 
     /* =============================================

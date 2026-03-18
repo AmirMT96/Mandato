@@ -766,24 +766,45 @@
 
       /* Horizontal connectors within rows */
       .timeline-step:not(:last-child)::after { display: block; }
-      /* Hide horizontal ::after on step 03 (replaced by vertical) */
-      .timeline-step[data-step="3"]::after { display: none !important; }
-      /* Hide spurious ::after on step 04 (DOM child 4, visual last in row2) */
+      /* Step 03 ::after: short arm from circle to right edge (not hidden anymore) */
+      .timeline-step[data-step="3"]::after {
+        display: block !important;
+        left: calc(50% + 20px);
+        right: -2px;
+        width: auto;
+      }
+      /* Hide spurious ::after on step 04 */
       .timeline-step[data-step="4"]::after { display: none !important; }
 
-      /* Vertical connector: 03 (col3 row1) → 04 (col3 row2) */
+      /* Step 03 ::before: vertical down the RIGHT edge, bypassing "Data Sharing" label */
       .timeline-step[data-step="3"]::before {
         content: '';
         position: absolute;
-        top: 20px;
-        left: calc(50% - 1px);
+        top: 19px;
+        left: auto;
+        right: -2px;
         width: 2px;
-        height: 82px;
+        height: 88px;
         background: #e2e8f0;
         z-index: 0;
         transition: background 0.4s;
       }
       .timeline-step[data-step="3"].done::before { background: #1B5FD9; }
+
+      /* Step 04 ::before: short arm from right edge back to circle */
+      .timeline-step[data-step="4"]::before {
+        content: '';
+        position: absolute;
+        top: 19px;
+        left: calc(50% + 20px);
+        right: -2px;
+        width: auto;
+        height: 2px;
+        background: #e2e8f0;
+        z-index: 0;
+        transition: background 0.4s;
+      }
+      .timeline-step[data-step="3"].done + .timeline-step[data-step="4"]::before { background: #1B5FD9; }
 
       /* Horizontal connector: 06 (visual pos4) → 05 (visual pos5) via ::before on 05 */
       .timeline-step[data-step="5"]::before {

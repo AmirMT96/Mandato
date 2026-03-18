@@ -464,11 +464,11 @@
     }
 
     .mockup-card {
-      background: #f4f6f9;
-      border: 1px solid #e0e6ef;
+      background: #1a2035;
+      border: 1px solid #2d3a55;
       border-radius: 20px;
       padding: 28px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.10), 0 0 0 1px rgba(27,95,217,0.08);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.28), 0 0 0 1px rgba(27,95,217,0.12);
       position: relative;
     }
 
@@ -478,7 +478,7 @@
       gap: 10px;
       margin-bottom: 24px;
       padding-bottom: 16px;
-      border-bottom: 1px solid #e0e6ef;
+      border-bottom: 1px solid #2d3a55;
     }
 
     .mockup-dot {
@@ -493,7 +493,7 @@
     .mockup-header-title {
       font-size: 14px;
       font-weight: 600;
-      color: #1a2035;
+      color: #ffffff;
     }
 
     .mockup-row {
@@ -501,13 +501,13 @@
       align-items: center;
       justify-content: space-between;
       padding: 12px 0;
-      border-bottom: 1px solid #e0e6ef;
+      border-bottom: 1px solid #2d3a55;
       gap: 12px;
     }
     .mockup-row:last-child { border-bottom: none; }
 
-    .mockup-row-label { font-size: 13px; color: var(--muted); }
-    .mockup-row-value { font-size: 12px; font-weight: 600; color: #1a2035; }
+    .mockup-row-label { font-size: 13px; color: #8899bb; }
+    .mockup-row-value { font-size: 12px; font-weight: 600; color: #ffffff; }
 
     /* Mandate rows in dashboard mockup */
     .mandate-row {
@@ -515,14 +515,14 @@
       align-items: center;
       justify-content: space-between;
       padding: 11px 0;
-      border-bottom: 1px solid #e0e6ef;
+      border-bottom: 1px solid #2d3a55;
       gap: 12px;
     }
     .mandate-row:last-of-type { border-bottom: none; }
-    .mandate-name { font-size: 13px; font-weight: 600; color: #1a2035; margin-bottom: 3px; }
-    .mandate-meta { font-size: 11px; color: #64748b; }
-    .mandate-row.archived .mandate-name { opacity: 0.45; }
-    .mandate-row.archived .mandate-meta { opacity: 0.4; }
+    .mandate-name { font-size: 13px; font-weight: 600; color: #ffffff; margin-bottom: 3px; }
+    .mandate-meta { font-size: 11px; color: #8899bb; }
+    .mandate-row.archived .mandate-name { opacity: 0.4; }
+    .mandate-row.archived .mandate-meta { opacity: 0.35; }
 
     /* Mockup footer stats */
     .mockup-stats {
@@ -530,17 +530,17 @@
       gap: 0;
       margin-top: 14px;
       padding-top: 14px;
-      border-top: 1px solid #e0e6ef;
+      border-top: 1px solid #2d3a55;
     }
     .mockup-stat {
       flex: 1;
       text-align: center;
       padding: 0 8px;
-      border-right: 1px solid #e0e6ef;
+      border-right: 1px solid #2d3a55;
     }
     .mockup-stat:last-child { border-right: none; }
     .mockup-stat-num { font-size: 17px; font-weight: 700; color: var(--accent); }
-    .mockup-stat-lbl { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+    .mockup-stat-lbl { font-size: 10px; color: #8899bb; margin-top: 2px; }
 
     /* Floating badges */
     .float-badge {
@@ -1129,7 +1129,7 @@
               <div class="mockup-header">
                 <div class="mockup-dot"></div>
                 <span class="mockup-header-title" data-de="Ihr Unternehmen" data-en="Your Company">Ihr Unternehmen</span>
-                <img src="logo-icon.svg" alt="Mandato" style="margin-left:auto; height:28px; width:auto; display:block;" />
+                <img src="logo-icon.svg" alt="Mandato" style="margin-left:auto; height:28px; width:auto; display:block; filter: brightness(0) invert(1); opacity: 0.5;" />
               </div>
 
               <!-- Mandate 1 -->

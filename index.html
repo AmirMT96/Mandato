@@ -642,47 +642,124 @@
       background: linear-gradient(180deg, transparent 0%, rgba(27,95,217,0.03) 50%, transparent 100%);
     }
 
-    .phase-cards {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
+    /* ── M&A Process Timeline ── */
+    .ma-timeline { margin-top: 56px; }
 
-    .phase-card {
+    .timeline-steps {
+      display: flex;
+      align-items: flex-start;
       position: relative;
+      margin-bottom: 32px;
     }
 
-    .phase-number {
-      font-size: 40px;
+    .timeline-step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    /* connector line between steps */
+    .timeline-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 19px;
+      left: calc(50% + 20px);
+      right: calc(-50% + 20px);
+      height: 2px;
+      background: #e2e8f0;
+      z-index: 0;
+      transition: background 0.4s;
+    }
+    .timeline-step.done:not(:last-child)::after,
+    .timeline-step.active:not(:last-child)::after { background: #1B5FD9; }
+
+    .step-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: 2px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
       font-weight: 700;
-      color: rgba(27,95,217,0.08);
-      letter-spacing: -0.04em;
-      line-height: 1;
-      margin-bottom: 16px;
+      color: #94a3b8;
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s;
+    }
+    .timeline-step:hover .step-circle { border-color: #1B5FD9; color: #1B5FD9; }
+    .timeline-step.active .step-circle {
+      background: #1B5FD9; border-color: #1B5FD9; color: #fff;
+      box-shadow: 0 0 0 5px rgba(27,95,217,0.14);
+    }
+    .timeline-step.done .step-circle { background: #1B5FD9; border-color: #1B5FD9; color: #fff; }
+
+    .step-label {
+      margin-top: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-align: center;
+      line-height: 1.35;
+      max-width: 84px;
+      transition: color 0.3s;
+    }
+    .timeline-step.active .step-label { color: #1B5FD9; }
+
+    /* Detail panel */
+    .timeline-detail {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 32px 36px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
+      animation: tlFadeUp 0.35s ease;
+    }
+    @keyframes tlFadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .phase-card h3 {
-      font-size: 16px;
-      color: var(--dark);
-      margin-bottom: 8px;
+    .detail-icon-wrap {
+      width: 56px; height: 56px; border-radius: 14px;
+      background: rgba(27,95,217,0.08);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; color: #1B5FD9;
+    }
+    .detail-body h3 { font-size: 19px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+    .detail-body p  { font-size: 14px; color: #64748b; line-height: 1.7; margin-bottom: 14px; }
+    .detail-badge-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px;
+      background: rgba(27,95,217,0.08); color: #1B5FD9;
+      border-radius: 6px; font-size: 12px; font-weight: 600;
+    }
+    .detail-step-bg {
+      position: absolute; right: 32px; top: 50%; transform: translateY(-50%);
+      font-size: 88px; font-weight: 800; line-height: 1;
+      color: rgba(27,95,217,0.05); letter-spacing: -0.05em;
+      pointer-events: none; user-select: none;
     }
 
-    .phase-card p {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 16px;
-      line-height: 1.6;
-    }
-
-    .phase-connector {
-      display: none;
-    }
-
+    /* Mobile */
     @media (max-width: 768px) {
-      .phase-cards { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 480px) {
-      .phase-cards { grid-template-columns: 1fr; }
+      .timeline-steps { flex-wrap: wrap; gap: 4px; }
+      .timeline-step { flex: 0 0 calc(33% - 4px); }
+      .timeline-step:not(:last-child)::after { display: none; }
+      .step-label { font-size: 10px; max-width: 72px; }
+      .timeline-detail { flex-direction: column; padding: 24px 20px; gap: 16px; }
+      .detail-step-bg { display: none; }
     }
 
     /* =============================================
@@ -1216,58 +1293,50 @@
         </p>
       </div>
 
-      <div class="phase-cards">
-        <!-- Phase 01 -->
-        <div class="card phase-card fade-in fade-in-delay-1">
-          <div class="phase-number">01</div>
-          <div class="icon-wrap" style="width:40px;height:40px;border-radius:10px;margin-bottom:12px;">
-            <i data-lucide="layout" style="width:18px;height:18px;"></i>
+      <!-- Dynamic M&A Process Timeline -->
+      <div class="ma-timeline fade-in">
+
+        <!-- Step bubbles -->
+        <div class="timeline-steps">
+          <div class="timeline-step active" data-step="1" onclick="tlSetStep(1)">
+            <div class="step-circle">01</div>
+            <div class="step-label" data-de="Vorbereitung &amp; Analyse" data-en="Preparation &amp; Analysis">Vorbereitung &amp; Analyse</div>
           </div>
-          <h3 data-de="Vorbereitung &amp; Teaser" data-en="Preparation &amp; Teaser">Vorbereitung &amp; Teaser</h3>
-          <p data-de="Positionierung, Bewertung, Marketing-Materialien" data-en="Positioning, valuation, marketing materials">
-            Positionierung, Bewertung, Marketing-Materialien
-          </p>
-          <span class="badge badge-blue" data-de="KI-generiert" data-en="AI-generated">KI-generiert</span>
+          <div class="timeline-step" data-step="2" onclick="tlSetStep(2)">
+            <div class="step-circle">02</div>
+            <div class="step-label" data-de="Marketing &amp; Käufer" data-en="Marketing &amp; Buyers">Marketing &amp; Käufer</div>
+          </div>
+          <div class="timeline-step" data-step="3" onclick="tlSetStep(3)">
+            <div class="step-circle">03</div>
+            <div class="step-label" data-de="Data Sharing" data-en="Data Sharing">Data Sharing</div>
+          </div>
+          <div class="timeline-step" data-step="4" onclick="tlSetStep(4)">
+            <div class="step-circle">04</div>
+            <div class="step-label" data-de="Due Diligence &amp; Bieter" data-en="Due Diligence &amp; Bidding">Due Diligence &amp; Bieter</div>
+          </div>
+          <div class="timeline-step" data-step="5" onclick="tlSetStep(5)">
+            <div class="step-circle">05</div>
+            <div class="step-label" data-de="Verhandlung" data-en="Negotiation">Verhandlung</div>
+          </div>
+          <div class="timeline-step" data-step="6" onclick="tlSetStep(6)">
+            <div class="step-circle">06</div>
+            <div class="step-label" data-de="Closing" data-en="Closing">Closing</div>
+          </div>
         </div>
 
-        <!-- Phase 02 -->
-        <div class="card phase-card fade-in fade-in-delay-2">
-          <div class="phase-number">02</div>
-          <div class="icon-wrap" style="width:40px;height:40px;border-radius:10px;margin-bottom:12px;">
-            <i data-lucide="users" style="width:18px;height:18px;"></i>
+        <!-- Detail panel -->
+        <div class="timeline-detail" id="tlDetail">
+          <div class="detail-icon-wrap">
+            <i id="tlIcon" data-lucide="clipboard-list" style="width:24px;height:24px;"></i>
           </div>
-          <h3 data-de="Käufer-Ansprache" data-en="Buyer Outreach">Käufer-Ansprache</h3>
-          <p data-de="Buyer Universe, Long List, Erstkontakt" data-en="Buyer universe, long list, first contact">
-            Buyer Universe, Long List, Erstkontakt
-          </p>
-          <span class="badge badge-blue" data-de="Automatisch" data-en="Automated">Automatisch</span>
+          <div class="detail-body">
+            <h3 id="tlTitle">Vorbereitung &amp; Analyse</h3>
+            <p id="tlDesc">Strukturierte Erfassung aller relevanten Unternehmensdaten. KI generiert Teaser, CIM und Bewertungsgrundlagen in Minuten statt Wochen.</p>
+            <span class="detail-badge-pill" id="tlBadge">KI-gestützt</span>
+          </div>
+          <div class="detail-step-bg" id="tlStepBg">01</div>
         </div>
 
-        <!-- Phase 03 -->
-        <div class="card phase-card fade-in fade-in-delay-3">
-          <div class="phase-number">03</div>
-          <div class="icon-wrap" style="width:40px;height:40px;border-radius:10px;margin-bottom:12px;">
-            <i data-lucide="shield" style="width:18px;height:18px;"></i>
-          </div>
-          <h3 data-de="NDA &amp; Due Diligence" data-en="NDA &amp; Due Diligence">NDA &amp; Due Diligence</h3>
-          <p data-de="Vertraulichkeit, Datenraum, Q&amp;A Management" data-en="Confidentiality, data room, Q&amp;A management">
-            Vertraulichkeit, Datenraum, Q&amp;A Management
-          </p>
-          <span class="badge badge-blue" data-de="Vollständig digital" data-en="Fully digital">Vollständig digital</span>
-        </div>
-
-        <!-- Phase 04 -->
-        <div class="card phase-card fade-in fade-in-delay-4">
-          <div class="phase-number">04</div>
-          <div class="icon-wrap" style="width:40px;height:40px;border-radius:10px;margin-bottom:12px;">
-            <i data-lucide="pen-tool" style="width:18px;height:18px;"></i>
-          </div>
-          <h3 data-de="Signing &amp; Closing" data-en="Signing &amp; Closing">Signing &amp; Closing</h3>
-          <p data-de="Verhandlung, SPA, Abschluss" data-en="Negotiation, SPA, closing">
-            Verhandlung, SPA, Abschluss
-          </p>
-          <span class="badge badge-gray" data-de="Berater-Domäne" data-en="Advisor domain">Berater-Domäne</span>
-        </div>
       </div>
     </div>
   </section>
@@ -1649,7 +1718,67 @@
         const btnLang = id.includes('EN') ? 'en' : 'de';
         btn.classList.toggle('active', btnLang === lang);
       });
+
+      // Refresh timeline detail panel for new language
+      tlRender();
     }
+
+    // =============================================
+    // M&A Process Timeline
+    // =============================================
+    const tlData = {
+      de: [
+        { title: 'Vorbereitung & Analyse',         icon: 'clipboard-list', badge: 'KI-gestützt',    desc: 'Strukturierte Erfassung aller relevanten Unternehmensdaten. KI generiert Teaser, CIM und Bewertungsgrundlagen in Minuten statt Wochen.' },
+        { title: 'Marketing & Käuferansprache',    icon: 'megaphone',      badge: 'Automatisiert',  desc: 'KI-gestützte Identifikation strategischer Käufer und PE-Fonds. Automatisierter Erstkontakt, NDA-Versand und lückenloser NDA-Tracking.' },
+        { title: 'Data Sharing',                   icon: 'folder-open',    badge: 'Gesichert',      desc: 'Vollständig digitaler Datenraum mit Zugriffsmanagement und Audit-Trail. Sichere Dokumentenfreigabe für qualifizierte Interessenten.' },
+        { title: 'Due Diligence & Bieterprozess', icon: 'search',         badge: 'Digital',        desc: 'Q&A-Management, KI-gestützte Dokumentenanalyse und strukturierter Bieterprozess — alles zentral in einer Plattform.' },
+        { title: 'Verhandlung',                    icon: 'handshake',      badge: 'Berater-geführt',desc: 'Unterstützung bei Term Sheets, LOIs und Vertragsverhandlungen. M&A-Berater behalten die volle Kontrolle und Entscheidungshoheit.' },
+        { title: 'Closing',                        icon: 'check-circle',   badge: 'Abgeschlossen',  desc: 'Abschluss des Verkaufsprozesses: SPA-Unterzeichnung, Closing-Checklisten und vollständige Post-Merger-Dokumentation.' }
+      ],
+      en: [
+        { title: 'Preparation & Analysis',         icon: 'clipboard-list', badge: 'AI-powered',    desc: 'Structured capture of all relevant company data. AI generates teaser, CIM and valuation basis in minutes instead of weeks.' },
+        { title: 'Marketing & Buyer Outreach',     icon: 'megaphone',      badge: 'Automated',     desc: 'AI-powered identification of strategic buyers and PE funds. Automated first contact, NDA distribution and full NDA tracking.' },
+        { title: 'Data Sharing',                   icon: 'folder-open',    badge: 'Secured',       desc: 'Fully digital data room with access management and audit trail. Secure document sharing for qualified parties.' },
+        { title: 'Due Diligence & Bidding',        icon: 'search',         badge: 'Digital',       desc: 'Q&A management, AI-powered document analysis and structured bidding process — all centralized in one platform.' },
+        { title: 'Negotiation',                    icon: 'handshake',      badge: 'Advisor-led',   desc: 'Support for term sheets, LOIs and contract negotiations. M&A advisors retain full control and decision authority.' },
+        { title: 'Closing',                        icon: 'check-circle',   badge: 'Completed',     desc: 'Completion of the sales process: SPA signing, closing checklists and complete post-merger documentation.' }
+      ]
+    };
+
+    let tlActive = 1;
+
+    function tlSetStep(n) {
+      tlActive = n;
+      tlRender();
+    }
+
+    function tlRender() {
+      const lang = currentLang || 'de';
+      const steps = document.querySelectorAll('.timeline-step');
+      steps.forEach((el, i) => {
+        el.classList.remove('active', 'done');
+        if (i + 1 === tlActive) el.classList.add('active');
+        else if (i + 1 < tlActive) el.classList.add('done');
+      });
+
+      const d = tlData[lang][tlActive - 1];
+      document.getElementById('tlTitle').textContent   = d.title;
+      document.getElementById('tlDesc').textContent    = d.desc;
+      document.getElementById('tlBadge').textContent   = d.badge;
+      document.getElementById('tlStepBg').textContent  = String(tlActive).padStart(2, '0');
+
+      const iconEl = document.getElementById('tlIcon');
+      iconEl.setAttribute('data-lucide', d.icon);
+      lucide.createIcons({ nodes: [iconEl] });
+
+      // Re-trigger animation
+      const panel = document.getElementById('tlDetail');
+      panel.style.animation = 'none';
+      void panel.offsetWidth;
+      panel.style.animation = 'tlFadeUp 0.35s ease';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => { tlRender(); });
 
     // =============================================
     // Scroll Fade-In (IntersectionObserver)

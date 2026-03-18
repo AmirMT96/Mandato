@@ -756,9 +756,9 @@
     @media (max-width: 768px) {
       .timeline-steps { flex-wrap: wrap; gap: 4px; }
       .timeline-step { flex: 0 0 calc(33% - 4px); }
-      /* Show connectors within each row, hide the wrap between row 1→2 */
+      /* Show connectors within each row, hide connector between row 2's last and nothing */
       .timeline-step:not(:last-child)::after { display: block; }
-      .timeline-step:nth-child(3)::after { display: none; }
+      .timeline-step:nth-child(3)::after { display: none; } /* hide row-break gap (03→06 across rows) */
       .step-label { font-size: 10px; max-width: 72px; }
       .timeline-detail { flex-direction: column; padding: 24px 20px; gap: 16px; }
       .detail-step-bg { display: none; }
@@ -1312,17 +1312,17 @@
             <div class="step-circle">03</div>
             <div class="step-label" data-de="Data Sharing" data-en="Data Sharing">Data Sharing</div>
           </div>
-          <div class="timeline-step" data-step="4" onclick="tlSetStep(4)">
-            <div class="step-circle">04</div>
-            <div class="step-label" data-de="Due Diligence &amp; Bieter" data-en="Due Diligence &amp; Bidding">Due Diligence &amp; Bieter</div>
+          <div class="timeline-step" data-step="6" onclick="tlSetStep(6)">
+            <div class="step-circle">06</div>
+            <div class="step-label" data-de="Closing" data-en="Closing">Closing</div>
           </div>
           <div class="timeline-step" data-step="5" onclick="tlSetStep(5)">
             <div class="step-circle">05</div>
             <div class="step-label" data-de="Verhandlung" data-en="Negotiation">Verhandlung</div>
           </div>
-          <div class="timeline-step" data-step="6" onclick="tlSetStep(6)">
-            <div class="step-circle">06</div>
-            <div class="step-label" data-de="Closing" data-en="Closing">Closing</div>
+          <div class="timeline-step" data-step="4" onclick="tlSetStep(4)">
+            <div class="step-circle">04</div>
+            <div class="step-label" data-de="Due Diligence &amp; Bieter" data-en="Due Diligence &amp; Bidding">Due Diligence &amp; Bieter</div>
           </div>
         </div>
 

@@ -755,9 +755,48 @@
     @media (max-width: 768px) {
       .timeline-steps { flex-wrap: wrap; gap: 4px; }
       .timeline-step { flex: 0 0 calc(33% - 4px); }
-      /* Show connectors within each row, hide the wrap between row 1→2 */
+
+      /* Reorder: Row1=01,02,03 | Row2=06,05,04 (04 directly under 03) */
+      .timeline-step[data-step="1"] { order: 1; }
+      .timeline-step[data-step="2"] { order: 2; }
+      .timeline-step[data-step="3"] { order: 3; }
+      .timeline-step[data-step="6"] { order: 4; }
+      .timeline-step[data-step="5"] { order: 5; }
+      .timeline-step[data-step="4"] { order: 6; }
+
+      /* Horizontal connectors within rows */
       .timeline-step:not(:last-child)::after { display: block; }
-      .timeline-step:nth-child(3)::after { display: none; }
+      /* Hide horizontal ::after on step 03 (replaced by vertical) */
+      .timeline-step[data-step="3"]::after { display: none !important; }
+      /* Hide spurious ::after on step 04 (DOM child 4, visual last in row2) */
+      .timeline-step[data-step="4"]::after { display: none !important; }
+
+      /* Vertical connector: 03 (col3 row1) → 04 (col3 row2) */
+      .timeline-step[data-step="3"]::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: calc(50% - 1px);
+        width: 2px;
+        height: 82px;
+        background: #e2e8f0;
+        z-index: 0;
+        transition: background 0.4s;
+      }
+      .timeline-step[data-step="3"].done::before { background: #1B5FD9; }
+
+      /* Horizontal connector: 06 (visual pos4) → 05 (visual pos5) via ::before on 05 */
+      .timeline-step[data-step="5"]::before {
+        content: '';
+        position: absolute;
+        top: 17px;
+        left: calc(-50% + 15px);
+        right: calc(50% + 20px);
+        height: 2px;
+        background: #e2e8f0;
+        z-index: 0;
+      }
+
       .step-label { font-size: 10px; max-width: 72px; }
       .timeline-detail { flex-direction: column; padding: 24px 20px; gap: 16px; }
       .detail-step-bg { display: none; }

@@ -463,12 +463,113 @@
       position: relative;
     }
 
+    /* ── MacBook Frame ── */
+    .macbook-wrapper {
+      position: relative;
+      padding: 36px 10px 0;
+    }
+
+    /* Lid / screen housing */
+    .macbook-lid {
+      background: linear-gradient(160deg, #4a4a4f 0%, #38383c 100%);
+      border-radius: 14px 14px 0 0;
+      padding: 6px 6px 12px;
+      box-shadow:
+        0 0 0 1.5px #28282a,
+        inset 0 1px 0 rgba(255,255,255,0.12),
+        0 24px 60px rgba(0,0,0,0.35);
+      position: relative;
+    }
+
+    /* Camera notch bar */
+    .macbook-notch-bar {
+      height: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2px;
+    }
+    .macbook-camera-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #4a4a50;
+      box-shadow: 0 0 0 1px #3a3a40, 0 0 4px rgba(0,0,0,0.6);
+    }
+
+    /* The screen itself */
+    .macbook-screen {
+      background: #e8edf5;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    /* Mini app bar inside the screen */
+    .macbook-app-bar {
+      background: #f5f7fa;
+      border-bottom: 1px solid #dde3ee;
+      padding: 7px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .macbook-traffic-lights {
+      display: flex; gap: 5px; margin-right: 6px;
+    }
+    .macbook-traffic-lights span {
+      width: 9px; height: 9px; border-radius: 50%; display: block;
+    }
+    .tl-red   { background: #ff5f57; }
+    .tl-yellow{ background: #ffbd2e; }
+    .tl-green { background: #28c840; }
+
+    /* Body below app bar holds the mockup card */
+    .macbook-screen-body {
+      padding: 16px;
+      background: #dde3ee;
+    }
+
+    /* Hinge between lid and base */
+    .macbook-hinge {
+      background: linear-gradient(90deg, #2a2a2c, #3e3e40, #2a2a2c);
+      height: 3px;
+      margin: 0 4px;
+    }
+
+    /* Keyboard base */
+    .macbook-base {
+      background: linear-gradient(180deg, #d2d2d7 0%, #c2c2c7 100%);
+      height: 16px;
+      border-radius: 0 0 2px 2px;
+      position: relative;
+    }
+    .macbook-base::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18%;
+      height: 4px;
+      background: #b0b0b5;
+      border-radius: 2px;
+    }
+
+    /* Bottom edge / feet */
+    .macbook-foot {
+      background: linear-gradient(180deg, #b8b8be 0%, #a8a8ae 100%);
+      height: 5px;
+      width: calc(100% - 24px);
+      margin: 0 auto;
+      border-radius: 0 0 6px 6px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+    }
+
     .mockup-card {
       background: #223050;
       border: 1px solid #2d3a55;
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.28), 0 0 0 1px rgba(27,95,217,0.12);
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
       position: relative;
     }
 
@@ -556,16 +657,16 @@
     }
 
     .float-badge-1 {
-      top: -16px;
-      right: -16px;
+      top: 0px;
+      right: -10px;
       color: var(--accent);
       border-color: rgba(27,95,217,0.4);
       background: rgba(27,95,217,0.08);
     }
 
     .float-badge-2 {
-      bottom: -16px;
-      left: -16px;
+      bottom: 20px;
+      left: -10px;
       color: var(--green);
       border-color: rgba(34,197,94,0.3);
       background: rgba(34,197,94,0.06);
@@ -1120,76 +1221,105 @@
           </a>
         </div>
 
-        <!-- Right: Mockup -->
+        <!-- Right: MacBook Mockup -->
         <div class="hero-mockup fade-in fade-in-delay-2">
-          <div style="position:relative; padding: 20px;">
-            <div class="mockup-card">
-
-              <!-- Header -->
-              <div class="mockup-header">
-                <div class="mockup-dot"></div>
-                <span class="mockup-header-title" data-de="Ihr Unternehmen" data-en="Your Company">Ihr Unternehmen</span>
-                <img src="logo-icon.svg" alt="Mandato" style="margin-left:auto; height:28px; width:auto; display:block; filter: brightness(0) invert(1); opacity: 0.5;" />
-              </div>
-
-              <!-- Mandate 1 -->
-              <div class="mandate-row">
-                <div>
-                  <div class="mandate-name">Muster GmbH</div>
-                  <div class="mandate-meta" data-de="6 Interessenten · 12 Kandidaten · Phase 3" data-en="6 interested parties · 12 candidates · Phase 3">6 Interessenten · 12 Kandidaten · Phase 3</div>
-                </div>
-                <span class="badge badge-green" data-de="Aktiv" data-en="Active">Aktiv</span>
-              </div>
-
-              <!-- Mandate 2 -->
-              <div class="mandate-row">
-                <div>
-                  <div class="mandate-name">Alpha Industries AG</div>
-                  <div class="mandate-meta" data-de="4 Interessenten · 8 Kandidaten · Phase 2" data-en="4 interested parties · 8 candidates · Phase 2">4 Interessenten · 8 Kandidaten · Phase 2</div>
-                </div>
-                <span class="badge badge-green" data-de="Aktiv" data-en="Active">Aktiv</span>
-              </div>
-
-              <!-- Mandate 3 -->
-              <div class="mandate-row">
-                <div>
-                  <div class="mandate-name">Beta Holding GmbH</div>
-                  <div class="mandate-meta" data-de="2 Interessenten · 15 Kandidaten · Phase 1" data-en="2 interested parties · 15 candidates · Phase 1">2 Interessenten · 15 Kandidaten · Phase 1</div>
-                </div>
-                <span class="badge badge-green" data-de="Aktiv" data-en="Active">Aktiv</span>
-              </div>
-
-              <!-- Mandate 4 – archived -->
-              <div class="mandate-row archived">
-                <div>
-                  <div class="mandate-name">Gamma Tech GmbH & Co. KG</div>
-                  <div class="mandate-meta" data-de="Abgeschlossen · 2024" data-en="Closed · 2024">Abgeschlossen · 2024</div>
-                </div>
-                <span class="badge badge-gray" data-de="Closed" data-en="Closed">Closed</span>
-              </div>
-
-              <!-- Footer stats -->
-              <div class="mockup-stats">
-                <div class="mockup-stat">
-                  <div class="mockup-stat-num">3</div>
-                  <div class="mockup-stat-lbl" data-de="Aktiv" data-en="Active">Aktiv</div>
-                </div>
-                <div class="mockup-stat">
-                  <div class="mockup-stat-num">12</div>
-                  <div class="mockup-stat-lbl" data-de="Interessenten" data-en="Interested">Interessenten</div>
-                </div>
-                <div class="mockup-stat">
-                  <div class="mockup-stat-num">35</div>
-                  <div class="mockup-stat-lbl" data-de="Kandidaten" data-en="Candidates">Kandidaten</div>
-                </div>
-              </div>
-
-            </div>
+          <div class="macbook-wrapper">
 
             <!-- Floating Badges -->
             <div class="float-badge float-badge-1" data-de="80% weniger Aufwand" data-en="80% less effort">80% weniger Aufwand</div>
             <div class="float-badge float-badge-2" data-de="5 Phasen automatisiert" data-en="5 phases automated">5 Phasen automatisiert</div>
-          </div>
+
+            <!-- MacBook Lid -->
+            <div class="macbook-lid">
+              <div class="macbook-notch-bar">
+                <div class="macbook-camera-dot"></div>
+              </div>
+              <div class="macbook-screen">
+
+                <!-- App bar -->
+                <div class="macbook-app-bar">
+                  <div class="macbook-traffic-lights">
+                    <span class="tl-red"></span>
+                    <span class="tl-yellow"></span>
+                    <span class="tl-green"></span>
+                  </div>
+                  <img src="logo.svg" alt="Mandato" style="height:18px; width:auto;" />
+                </div>
+
+                <!-- App body -->
+                <div class="macbook-screen-body">
+                  <div class="mockup-card">
+
+                    <!-- Header -->
+                    <div class="mockup-header">
+                      <div class="mockup-dot"></div>
+                      <span class="mockup-header-title" data-de="Ihr Unternehmen" data-en="Your Company">Ihr Unternehmen</span>
+                      <img src="logo-icon.svg" alt="Mandato" style="margin-left:auto; height:22px; width:auto; display:block; filter: brightness(0) invert(1); opacity: 0.4;" />
+                    </div>
+
+                    <!-- Mandate 1 -->
+                    <div class="mandate-row">
+                      <div>
+                        <div class="mandate-name">Muster GmbH</div>
+                        <div class="mandate-meta" data-de="6 Interessenten · 12 Kandidaten · Phase 3" data-en="6 interested · 12 candidates · Phase 3">6 Interessenten · 12 Kandidaten · Phase 3</div>
+                      </div>
+                      <span class="badge badge-green" data-de="Aktiv" data-en="Active">Aktiv</span>
+                    </div>
+
+                    <!-- Mandate 2 -->
+                    <div class="mandate-row">
+                      <div>
+                        <div class="mandate-name">Alpha Industries AG</div>
+                        <div class="mandate-meta" data-de="4 Interessenten · 8 Kandidaten · Phase 2" data-en="4 interested · 8 candidates · Phase 2">4 Interessenten · 8 Kandidaten · Phase 2</div>
+                      </div>
+                      <span class="badge badge-green" data-de="Aktiv" data-en="Active">Aktiv</span>
+                    </div>
+
+                    <!-- Mandate 3 -->
+                    <div class="mandate-row">
+                      <div>
+                        <div class="mandate-name">Beta Holding GmbH</div>
+                        <div class="mandate-meta" data-de="2 Interessenten · 15 Kandidaten · Phase 1" data-en="2 interested · 15 candidates · Phase 1">2 Interessenten · 15 Kandidaten · Phase 1</div>
+                      </div>
+                      <span class="badge badge-green" data-de="Aktiv" data-en="Active">Aktiv</span>
+                    </div>
+
+                    <!-- Mandate 4 – closed -->
+                    <div class="mandate-row archived">
+                      <div>
+                        <div class="mandate-name">Gamma Tech GmbH & Co. KG</div>
+                        <div class="mandate-meta" data-de="Abgeschlossen · 2024" data-en="Closed · 2024">Abgeschlossen · 2024</div>
+                      </div>
+                      <span class="badge badge-gray" data-de="Closed" data-en="Closed">Closed</span>
+                    </div>
+
+                    <!-- Footer stats -->
+                    <div class="mockup-stats">
+                      <div class="mockup-stat">
+                        <div class="mockup-stat-num">3</div>
+                        <div class="mockup-stat-lbl" data-de="Aktiv" data-en="Active">Aktiv</div>
+                      </div>
+                      <div class="mockup-stat">
+                        <div class="mockup-stat-num">12</div>
+                        <div class="mockup-stat-lbl" data-de="Interessenten" data-en="Interested">Interessenten</div>
+                      </div>
+                      <div class="mockup-stat">
+                        <div class="mockup-stat-num">35</div>
+                        <div class="mockup-stat-lbl" data-de="Kandidaten" data-en="Candidates">Kandidaten</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div><!-- /macbook-screen-body -->
+              </div><!-- /macbook-screen -->
+            </div><!-- /macbook-lid -->
+
+            <!-- MacBook base -->
+            <div class="macbook-hinge"></div>
+            <div class="macbook-base"></div>
+            <div class="macbook-foot"></div>
+
+          </div><!-- /macbook-wrapper -->
         </div>
 
       </div>

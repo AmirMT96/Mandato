@@ -641,6 +641,15 @@
       .pw-box { padding: 28px 24px; margin: 0 16px; }
       .content { padding: 0 16px; }
     }
+
+    /* LANG TOGGLE */
+    .lang-toggle { display:flex; background:#f0f4ff; border-radius:20px; padding:3px; gap:2px; }
+    .lang-btn { border:none; background:transparent; padding:5px 12px; border-radius:16px; font-size:13px; font-weight:500; cursor:pointer; color:#64748b; font-family:'Inter',sans-serif; transition:all .2s; }
+    .lang-btn.active { background:#fff; color:#0f172a; box-shadow:0 1px 3px rgba(0,0,0,.12); }
+    /* Override for dark bg of how-it-works */
+    .navbar .lang-toggle { background: rgba(255,255,255,0.08); }
+    .navbar .lang-btn { color: rgba(255,255,255,0.5); }
+    .navbar .lang-btn.active { background: rgba(255,255,255,0.15); color: #fff; box-shadow: none; }
   </style>
 </head>
 <body>
@@ -653,8 +662,8 @@
       <img src="logo.svg" alt="Mandato" />
     </div>
     <div class="pw-box">
-      <div class="pw-title">Interner Bereich</div>
-      <div class="pw-subtitle">Bitte Passwort eingeben, um fortzufahren</div>
+      <div class="pw-title" data-de="Interner Bereich" data-en="Internal Area">Interner Bereich</div>
+      <div class="pw-subtitle" data-de="Bitte Passwort eingeben, um fortzufahren" data-en="Please enter password to continue">Bitte Passwort eingeben, um fortzufahren</div>
       <input
         type="password"
         class="pw-input"
@@ -663,7 +672,7 @@
         onkeydown="if(event.key==='Enter') checkPw()"
       />
       <div class="pw-error-msg" id="pw-error"></div>
-      <button class="pw-btn" onclick="checkPw()">Zugang</button>
+      <button class="pw-btn" data-de="Zugang" data-en="Access" onclick="checkPw()">Zugang</button>
     </div>
   </div>
 
@@ -678,32 +687,36 @@
         <a href="/" class="nav-logo"><img src="logo.svg" alt="Mandato" /></a>
         <a href="/" class="nav-back">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-          Zurück
+          <span data-de="Zurück" data-en="Back">Zurück</span>
         </a>
+        <div class="lang-toggle">
+          <button class="lang-btn active" id="btn-de" onclick="setLang('de')">DE</button>
+          <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        </div>
       </div>
     </nav>
 
     <!-- STICKY SIDEBAR -->
     <aside class="sidebar" id="sidebar">
       <a class="sidebar-pill active" data-phase="1" href="#phase1">
-        <span class="pill-num">01</span> Registrierung
+        <span class="pill-num">01</span> <span data-de="Registrierung" data-en="Registration">Registrierung</span>
       </a>
       <a class="sidebar-pill" data-phase="2" href="#phase2">
-        <span class="pill-num">02</span> Account
+        <span class="pill-num">02</span> <span data-de="Account" data-en="Account">Account</span>
       </a>
       <a class="sidebar-pill" data-phase="3" href="#phase3">
-        <span class="pill-num">03</span> Deal-Flow
+        <span class="pill-num">03</span> <span data-de="Deal-Flow" data-en="Deal Flow">Deal-Flow</span>
       </a>
       <a class="sidebar-pill" data-phase="4" href="#phase4">
-        <span class="pill-num">04</span> Visitor
+        <span class="pill-num">04</span> <span data-de="Visitor" data-en="Visitor">Visitor</span>
       </a>
     </aside>
 
     <!-- LEGEND -->
     <div class="legend">
-      <div class="legend-item"><span class="legend-dot blue"></span> Berater-Aktion</div>
-      <div class="legend-item"><span class="legend-dot green"></span> Automatisch / KI</div>
-      <div class="legend-item"><span class="legend-dot gray"></span> Visitor / Neutral</div>
+      <div class="legend-item"><span class="legend-dot blue"></span> <span data-de="Berater-Aktion" data-en="Advisor Action">Berater-Aktion</span></div>
+      <div class="legend-item"><span class="legend-dot green"></span> <span data-de="Automatisch / KI" data-en="Automated / AI">Automatisch / KI</span></div>
+      <div class="legend-item"><span class="legend-dot gray"></span> <span data-de="Visitor / Neutral" data-en="Visitor / Neutral">Visitor / Neutral</span></div>
     </div>
 
     <!-- PAGE WRAPPER -->
@@ -712,16 +725,16 @@
 
         <!-- HERO -->
         <section class="hero">
-          <div class="hero-eyebrow">PRODUKT-FLOW</div>
-          <h1>Vom ersten Login<br />bis zum <em>signierten NDA.</em></h1>
-          <p class="hero-sub">Alle Schritte. Vollständig automatisiert.</p>
+          <div class="hero-eyebrow" data-de="PRODUKT-FLOW" data-en="PRODUCT FLOW">PRODUKT-FLOW</div>
+          <h1><span data-de="Vom ersten Login" data-en="From first login">Vom ersten Login</span><br /><span data-de="bis zum " data-en="to the ">bis zum </span><em data-de="signierten NDA." data-en="signed NDA.">signierten NDA.</em></h1>
+          <p class="hero-sub" data-de="Alle Schritte. Vollständig automatisiert." data-en="Every step. Fully automated.">Alle Schritte. Vollständig automatisiert.</p>
         </section>
 
         <!-- ==========================================
              PHASE 1 — REGISTRIERUNG & ONBOARDING
         ========================================== -->
         <section class="phase phase-section" id="phase1" data-phase="1">
-          <div class="mobile-phase-pill"><span class="mobile-phase-pill-inner">01 — Registrierung</span></div>
+          <div class="mobile-phase-pill"><span class="mobile-phase-pill-inner" data-de="01 — Registrierung" data-en="01 — Registration">01 — Registrierung</span></div>
 
           <div class="phase-glow">
             <svg width="100%" height="100%" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
@@ -736,8 +749,8 @@
           </div>
 
           <div class="phase-header">
-            <div class="phase-label">01 — Registrierung &amp; Onboarding</div>
-            <div class="phase-subtitle">Einmalig. In wenigen Minuten erledigt.</div>
+            <div class="phase-label" data-de="01 — Registrierung & Onboarding" data-en="01 — Registration & Onboarding">01 — Registrierung &amp; Onboarding</div>
+            <div class="phase-subtitle" data-de="Einmalig. In wenigen Minuten erledigt." data-en="Once. Done in minutes.">Einmalig. In wenigen Minuten erledigt.</div>
           </div>
 
           <div class="step-flow" id="flow1">
@@ -745,8 +758,8 @@
             <div class="step-card gray" data-delay="0">
               <div class="step-icon"><i data-lucide="user-plus"></i></div>
               <div class="step-text">
-                <div class="step-title">Registrierung</div>
-                <div class="step-desc">Name, Email, Passwort eingeben</div>
+                <div class="step-title" data-de="Registrierung" data-en="Registration">Registrierung</div>
+                <div class="step-desc" data-de="Name, Email, Passwort eingeben" data-en="Enter name, email, password">Name, Email, Passwort eingeben</div>
               </div>
             </div>
             <div class="connector green"></div><div class="connector-arrow"></div>
@@ -754,8 +767,8 @@
             <div class="step-card green" data-delay="100">
               <div class="step-icon"><i data-lucide="mail-check"></i></div>
               <div class="step-text">
-                <div class="step-title">Email bestätigen</div>
-                <div class="step-desc">Verifizierungs-Link wird automatisch versendet</div>
+                <div class="step-title" data-de="Email bestätigen" data-en="Confirm Email">Email bestätigen</div>
+                <div class="step-desc" data-de="Verifizierungs-Link wird automatisch versendet" data-en="Verification link sent automatically">Verifizierungs-Link wird automatisch versendet</div>
               </div>
             </div>
             <div class="connector green"></div><div class="connector-arrow"></div>
@@ -763,8 +776,8 @@
             <div class="step-card green" data-delay="200">
               <div class="step-icon"><i data-lucide="mail"></i></div>
               <div class="step-text">
-                <div class="step-title">Willkommens-Email</div>
-                <div class="step-desc">Persönliche Begrüßung + nächste Schritte</div>
+                <div class="step-title" data-de="Willkommens-Email" data-en="Welcome Email">Willkommens-Email</div>
+                <div class="step-desc" data-de="Persönliche Begrüßung + nächste Schritte" data-en="Personal welcome + next steps">Persönliche Begrüßung + nächste Schritte</div>
               </div>
             </div>
             <div class="connector blue"></div><div class="connector-arrow"></div>
@@ -772,8 +785,8 @@
             <div class="step-card blue" data-delay="300">
               <div class="step-icon"><i data-lucide="log-in"></i></div>
               <div class="step-text">
-                <div class="step-title">Erster Login</div>
-                <div class="step-desc">Guided Setup startet automatisch</div>
+                <div class="step-title" data-de="Erster Login" data-en="First Login">Erster Login</div>
+                <div class="step-desc" data-de="Guided Setup startet automatisch" data-en="Guided setup starts automatically">Guided Setup startet automatisch</div>
               </div>
             </div>
             <div class="connector blue"></div><div class="connector-arrow"></div>
@@ -781,8 +794,8 @@
             <div class="step-card blue" data-delay="400">
               <div class="step-icon"><i data-lucide="building-2"></i></div>
               <div class="step-text">
-                <div class="step-title">Firmenprofil anlegen</div>
-                <div class="step-desc">Name, Logo, Adresse, CI-Farben</div>
+                <div class="step-title" data-de="Firmenprofil anlegen" data-en="Create Company Profile">Firmenprofil anlegen</div>
+                <div class="step-desc" data-de="Name, Logo, Adresse, CI-Farben" data-en="Name, logo, address, CI colors">Name, Logo, Adresse, CI-Farben</div>
               </div>
             </div>
             <div class="connector blue"></div><div class="connector-arrow"></div>
@@ -790,8 +803,8 @@
             <div class="step-card blue" data-delay="500">
               <div class="step-icon"><i data-lucide="file-text"></i></div>
               <div class="step-text">
-                <div class="step-title">NDA-Template anlegen</div>
-                <div class="step-desc">Erstes Template aus Bibliothek konfigurieren</div>
+                <div class="step-title" data-de="NDA-Template anlegen" data-en="Create NDA Template">NDA-Template anlegen</div>
+                <div class="step-desc" data-de="Erstes Template aus Bibliothek konfigurieren" data-en="Configure first template from library">Erstes Template aus Bibliothek konfigurieren</div>
               </div>
             </div>
             <div class="connector blue"></div><div class="connector-arrow"></div>
@@ -799,8 +812,8 @@
             <div class="step-card blue" data-delay="600">
               <div class="step-icon"><i data-lucide="palette"></i></div>
               <div class="step-text">
-                <div class="step-title">Briefbogen &amp; CI</div>
-                <div class="step-desc">Logo, Footer, Gerichtsstand definieren</div>
+                <div class="step-title" data-de="Briefbogen & CI" data-en="Letterhead & CI">Briefbogen &amp; CI</div>
+                <div class="step-desc" data-de="Logo, Footer, Gerichtsstand definieren" data-en="Define logo, footer, jurisdiction">Logo, Footer, Gerichtsstand definieren</div>
               </div>
             </div>
             <div class="connector green"></div><div class="connector-arrow"></div>
@@ -808,8 +821,8 @@
             <div class="step-card green" data-delay="700">
               <div class="step-icon"><i data-lucide="check-circle-2"></i></div>
               <div class="step-text">
-                <div class="step-title">Setup abgeschlossen</div>
-                <div class="step-desc">→ Weiterleitung zum Dashboard</div>
+                <div class="step-title" data-de="Setup abgeschlossen" data-en="Setup Complete">Setup abgeschlossen</div>
+                <div class="step-desc" data-de="→ Weiterleitung zum Dashboard" data-en="→ Redirect to Dashboard">→ Weiterleitung zum Dashboard</div>
               </div>
             </div>
 
@@ -822,7 +835,7 @@
              PHASE 2 — ACCOUNT & NDA-BIBLIOTHEK
         ========================================== -->
         <section class="phase phase-section" id="phase2" data-phase="2">
-          <div class="mobile-phase-pill"><span class="mobile-phase-pill-inner" style="background:rgba(27,95,217,0.15);border-color:rgba(27,95,217,0.3)">02 — Account</span></div>
+          <div class="mobile-phase-pill"><span class="mobile-phase-pill-inner" style="background:rgba(27,95,217,0.15);border-color:rgba(27,95,217,0.3)" data-de="02 — Account" data-en="02 — Account">02 — Account</span></div>
 
           <div class="phase-glow">
             <svg width="100%" height="100%" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
@@ -837,8 +850,8 @@
           </div>
 
           <div class="phase-header">
-            <div class="phase-label">02 — Account &amp; NDA-Bibliothek</div>
-            <div class="phase-subtitle">Einmal anlegen. Für alle Mandate verfügbar.</div>
+            <div class="phase-label" data-de="02 — Account & NDA-Bibliothek" data-en="02 — Account & NDA Library">02 — Account &amp; NDA-Bibliothek</div>
+            <div class="phase-subtitle" data-de="Einmal anlegen. Für alle Mandate verfügbar." data-en="Set up once. Available for all mandates.">Einmal anlegen. Für alle Mandate verfügbar.</div>
           </div>
 
           <div class="step-flow" id="flow2">
@@ -846,8 +859,8 @@
             <div class="step-card blue" data-delay="0">
               <div class="step-icon"><i data-lucide="layout-dashboard"></i></div>
               <div class="step-text">
-                <div class="step-title">Dashboard</div>
-                <div class="step-desc">Zentrale Übersicht aller Mandate und Einstellungen</div>
+                <div class="step-title" data-de="Dashboard" data-en="Dashboard">Dashboard</div>
+                <div class="step-desc" data-de="Zentrale Übersicht aller Mandate und Einstellungen" data-en="Central overview of all mandates and settings">Zentrale Übersicht aller Mandate und Einstellungen</div>
               </div>
             </div>
             <div class="connector blue"></div><div class="connector-arrow"></div>
@@ -855,8 +868,8 @@
             <div class="step-card blue" data-delay="100">
               <div class="step-icon"><i data-lucide="library"></i></div>
               <div class="step-text">
-                <div class="step-title">NDA-Bibliothek</div>
-                <div class="step-desc">Alle Templates verwalten — anlegen, bearbeiten, löschen</div>
+                <div class="step-title" data-de="NDA-Bibliothek" data-en="NDA Library">NDA-Bibliothek</div>
+                <div class="step-desc" data-de="Alle Templates verwalten — anlegen, bearbeiten, löschen" data-en="Manage all templates — create, edit, delete">Alle Templates verwalten — anlegen, bearbeiten, löschen</div>
               </div>
             </div>
             <div class="connector blue"></div><div class="connector-arrow"></div>
@@ -864,8 +877,8 @@
             <div class="step-card blue" data-delay="200">
               <div class="step-icon"><i data-lucide="file-plus-2"></i></div>
               <div class="step-text">
-                <div class="step-title">Template anlegen</div>
-                <div class="step-desc">Klauseln, Variablen, Sprache definieren</div>
+                <div class="step-title" data-de="Template anlegen" data-en="Create Template">Template anlegen</div>
+                <div class="step-desc" data-de="Klauseln, Variablen, Sprache definieren" data-en="Define clauses, variables, language">Klauseln, Variablen, Sprache definieren</div>
               </div>
             </div>
             <div class="connector blue"></div><div class="connector-arrow"></div>
@@ -873,8 +886,8 @@
             <div class="step-card blue" data-delay="300">
               <div class="step-icon"><i data-lucide="file-pen"></i></div>
               <div class="step-text">
-                <div class="step-title">Template bearbeiten</div>
-                <div class="step-desc">Deal-spezifische Anpassungen jederzeit möglich</div>
+                <div class="step-title" data-de="Template bearbeiten" data-en="Edit Template">Template bearbeiten</div>
+                <div class="step-desc" data-de="Deal-spezifische Anpassungen jederzeit möglich" data-en="Deal-specific adjustments anytime">Deal-spezifische Anpassungen jederzeit möglich</div>
               </div>
             </div>
             <div class="connector blue"></div><div class="connector-arrow"></div>
@@ -882,8 +895,8 @@
             <div class="step-card blue" data-delay="400">
               <div class="step-icon"><i data-lucide="settings-2"></i></div>
               <div class="step-text">
-                <div class="step-title">Einstellungen</div>
-                <div class="step-desc">Gerichtsstand, Laufzeit, Ausnahmen</div>
+                <div class="step-title" data-de="Einstellungen" data-en="Settings">Einstellungen</div>
+                <div class="step-desc" data-de="Gerichtsstand, Laufzeit, Ausnahmen" data-en="Jurisdiction, duration, exceptions">Gerichtsstand, Laufzeit, Ausnahmen</div>
               </div>
             </div>
             <div class="connector green"></div><div class="connector-arrow"></div>
@@ -891,8 +904,8 @@
             <div class="step-card green" data-delay="500">
               <div class="step-icon"><i data-lucide="save"></i></div>
               <div class="step-text">
-                <div class="step-title">Template gespeichert</div>
-                <div class="step-desc">Verfügbar für alle zukünftigen Mandate</div>
+                <div class="step-title" data-de="Template gespeichert" data-en="Template Saved">Template gespeichert</div>
+                <div class="step-desc" data-de="Verfügbar für alle zukünftigen Mandate" data-en="Available for all future mandates">Verfügbar für alle zukünftigen Mandate</div>
               </div>
             </div>
 
@@ -905,7 +918,7 @@
              PHASE 3 — DEAL-FLOW
         ========================================== -->
         <section class="phase phase-section" id="phase3" data-phase="3">
-          <div class="mobile-phase-pill"><span class="mobile-phase-pill-inner" style="background:rgba(29,158,117,0.12);border-color:rgba(29,158,117,0.3);color:#1D9E75">03 — Deal-Flow</span></div>
+          <div class="mobile-phase-pill"><span class="mobile-phase-pill-inner" style="background:rgba(29,158,117,0.12);border-color:rgba(29,158,117,0.3);color:#1D9E75" data-de="03 — Deal-Flow" data-en="03 — Deal Flow">03 — Deal-Flow</span></div>
 
           <div class="phase-glow">
             <svg width="100%" height="100%" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
@@ -920,8 +933,8 @@
           </div>
 
           <div class="phase-header">
-            <div class="phase-label">03 — Deal-Flow</div>
-            <div class="phase-subtitle">Pro Mandat. Von der URL bis zur Live-Seite.</div>
+            <div class="phase-label" data-de="03 — Deal-Flow" data-en="03 — Deal Flow">03 — Deal-Flow</div>
+            <div class="phase-subtitle" data-de="Pro Mandat. Von der URL bis zur Live-Seite." data-en="Per mandate. From URL to live page.">Pro Mandat. Von der URL bis zur Live-Seite.</div>
           </div>
 
           <div class="step-flow" id="flow3">
@@ -929,8 +942,8 @@
             <div class="step-card blue" data-delay="0">
               <div class="step-icon"><i data-lucide="plus-circle"></i></div>
               <div class="step-text">
-                <div class="step-title">Mandat anlegen</div>
-                <div class="step-desc">+ Neues Mandat im Dashboard</div>
+                <div class="step-title" data-de="Mandat anlegen" data-en="Create Mandate">Mandat anlegen</div>
+                <div class="step-desc" data-de="+ Neues Mandat im Dashboard" data-en="+ New mandate in dashboard">+ Neues Mandat im Dashboard</div>
               </div>
             </div>
             <div class="connector blue"></div><div class="connector-arrow"></div>
@@ -938,8 +951,8 @@
             <div class="step-card blue" data-delay="100">
               <div class="step-icon"><i data-lucide="upload-cloud"></i></div>
               <div class="step-text">
-                <div class="step-title">Upload</div>
-                <div class="step-desc">URL, PDF, Excel oder BWA hochladen</div>
+                <div class="step-title" data-de="Upload" data-en="Upload">Upload</div>
+                <div class="step-desc" data-de="URL, PDF, Excel oder BWA hochladen" data-en="Upload URL, PDF, Excel or financials">URL, PDF, Excel oder BWA hochladen</div>
               </div>
             </div>
             <div class="connector green"></div><div class="connector-arrow"></div>
@@ -947,8 +960,8 @@
             <div class="step-card green" data-delay="200">
               <div class="step-icon"><i data-lucide="bot"></i></div>
               <div class="step-text">
-                <div class="step-title">AI Interview</div>
-                <div class="step-desc">KI analysiert automatisch — fragt nur was sie nicht ableiten kann</div>
+                <div class="step-title" data-de="AI Interview" data-en="AI Interview">AI Interview</div>
+                <div class="step-desc" data-de="KI analysiert automatisch — fragt nur was sie nicht ableiten kann" data-en="AI analyzes automatically — only asks what it can't derive">KI analysiert automatisch — fragt nur was sie nicht ableiten kann</div>
               </div>
             </div>
             <div class="connector blue"></div><div class="connector-arrow"></div>
@@ -956,8 +969,8 @@
             <div class="step-card blue" data-delay="300">
               <div class="step-icon"><i data-lucide="check-square"></i></div>
               <div class="step-text">
-                <div class="step-title">Review &amp; Bestätigung</div>
-                <div class="step-desc">Berater prüft jeden Baustein: ✅ Akzeptieren &nbsp;/&nbsp; ✏️ Bearbeiten &nbsp;/&nbsp; ❌ Weglassen</div>
+                <div class="step-title" data-de="Review & Bestätigung" data-en="Review & Confirmation">Review &amp; Bestätigung</div>
+                <div class="step-desc" data-de="Berater prüft jeden Baustein: ✅ Akzeptieren / ✏️ Bearbeiten / ❌ Weglassen" data-en="Advisor reviews each block: ✅ Accept / ✏️ Edit / ❌ Skip">Berater prüft jeden Baustein: ✅ Akzeptieren &nbsp;/&nbsp; ✏️ Bearbeiten &nbsp;/&nbsp; ❌ Weglassen</div>
               </div>
             </div>
             <div class="connector blue"></div><div class="connector-arrow"></div>
@@ -965,8 +978,8 @@
             <div class="step-card blue" data-delay="400">
               <div class="step-icon"><i data-lucide="sliders-horizontal"></i></div>
               <div class="step-text">
-                <div class="step-title">Page Configuration</div>
-                <div class="step-desc">Sprache, Zielgruppe, CTA, Passwortschutz</div>
+                <div class="step-title" data-de="Page Configuration" data-en="Page Configuration">Page Configuration</div>
+                <div class="step-desc" data-de="Sprache, Zielgruppe, CTA, Passwortschutz" data-en="Language, target audience, CTA, password protection">Sprache, Zielgruppe, CTA, Passwortschutz</div>
               </div>
             </div>
             <div class="connector blue"></div><div class="connector-arrow"></div>
@@ -974,8 +987,8 @@
             <div class="step-card blue" data-delay="500">
               <div class="step-icon"><i data-lucide="file-badge"></i></div>
               <div class="step-text">
-                <div class="step-title">NDA auswählen</div>
-                <div class="step-desc">Aus Bibliothek wählen + optional deal-spezifisch anpassen</div>
+                <div class="step-title" data-de="NDA auswählen" data-en="Select NDA">NDA auswählen</div>
+                <div class="step-desc" data-de="Aus Bibliothek wählen + optional deal-spezifisch anpassen" data-en="Choose from library + optionally customize for deal">Aus Bibliothek wählen + optional deal-spezifisch anpassen</div>
               </div>
             </div>
             <div class="connector green"></div><div class="connector-arrow"></div>
@@ -983,8 +996,8 @@
             <div class="step-card green" data-delay="600">
               <div class="step-icon"><i data-lucide="globe"></i></div>
               <div class="step-text">
-                <div class="step-title">Publish</div>
-                <div class="step-desc">Einzigartiger Link wird generiert — Seite ist live</div>
+                <div class="step-title" data-de="Publish" data-en="Publish">Publish</div>
+                <div class="step-desc" data-de="Einzigartiger Link wird generiert — Seite ist live" data-en="Unique link generated — page is live">Einzigartiger Link wird generiert — Seite ist live</div>
               </div>
             </div>
 
@@ -997,7 +1010,7 @@
              PHASE 4 — VISITOR-FLOW
         ========================================== -->
         <section class="phase phase-section" id="phase4" data-phase="4">
-          <div class="mobile-phase-pill"><span class="mobile-phase-pill-inner" style="background:rgba(136,135,128,0.12);border-color:rgba(136,135,128,0.3);color:#888780">04 — Visitor</span></div>
+          <div class="mobile-phase-pill"><span class="mobile-phase-pill-inner" style="background:rgba(136,135,128,0.12);border-color:rgba(136,135,128,0.3);color:#888780" data-de="04 — Visitor" data-en="04 — Visitor">04 — Visitor</span></div>
 
           <div class="phase-glow">
             <svg width="100%" height="100%" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
@@ -1012,8 +1025,8 @@
           </div>
 
           <div class="phase-header">
-            <div class="phase-label">04 — Visitor-Flow</div>
-            <div class="phase-subtitle">Was der Interessent erlebt — und was automatisch passiert.</div>
+            <div class="phase-label" data-de="04 — Visitor-Flow" data-en="04 — Visitor Flow">04 — Visitor-Flow</div>
+            <div class="phase-subtitle" data-de="Was der Interessent erlebt — und was automatisch passiert." data-en="What the prospect experiences — and what happens automatically.">Was der Interessent erlebt — und was automatisch passiert.</div>
           </div>
 
           <div class="step-flow" id="flow4">
@@ -1021,25 +1034,25 @@
             <div class="step-card gray" data-delay="0">
               <div class="step-icon"><i data-lucide="mouse-pointer-click"></i></div>
               <div class="step-text">
-                <div class="step-title">Landing Page besuchen</div>
-                <div class="step-desc">Interessent öffnet den Deal-Link</div>
+                <div class="step-title" data-de="Landing Page besuchen" data-en="Visit Landing Page">Landing Page besuchen</div>
+                <div class="step-desc" data-de="Interessent öffnet den Deal-Link" data-en="Prospect opens the deal link">Interessent öffnet den Deal-Link</div>
               </div>
             </div>
             <div class="connector gray"></div><div class="connector-arrow"></div>
 
             <!-- SPLIT CARD -->
             <div class="split-wrapper" id="cta-split">
-              <div class="split-label">CTA — Zwei Optionen</div>
+              <div class="split-label" data-de="CTA — Zwei Optionen" data-en="CTA — Two Options">CTA — Zwei Optionen</div>
               <div class="split-cards">
                 <div class="split-card">
-                  <div class="split-badge badge-gray">Pfad A</div>
+                  <div class="split-badge badge-gray" data-de="Pfad A" data-en="Path A">Pfad A</div>
                   <div class="split-card-title">Request NDA</div>
-                  <div class="split-card-desc">NDA anfordern und unterzeichnen</div>
+                  <div class="split-card-desc" data-de="NDA anfordern und unterzeichnen" data-en="Request and sign NDA">NDA anfordern und unterzeichnen</div>
                 </div>
                 <div class="split-card">
-                  <div class="split-badge badge-gray">Pfad B</div>
+                  <div class="split-badge badge-gray" data-de="Pfad B" data-en="Path B">Pfad B</div>
                   <div class="split-card-title">Get in Touch</div>
-                  <div class="split-card-desc">Direktkontakt mit dem Berater</div>
+                  <div class="split-card-desc" data-de="Direktkontakt mit dem Berater" data-en="Direct contact with advisor">Direktkontakt mit dem Berater</div>
                 </div>
               </div>
             </div>
@@ -1050,58 +1063,58 @@
               <!-- PATH A -->
               <div class="fork-path" id="path-a">
                 <div class="fork-connector"></div>
-                <div class="fork-path-label">Pfad A — Request NDA</div>
+                <div class="fork-path-label" data-de="Pfad A — Request NDA" data-en="Path A — Request NDA">Pfad A — Request NDA</div>
 
                 <div class="fork-step-card gray" data-delay="0">
-                  <div class="fork-step-title">Formular ausfüllen</div>
-                  <div class="fork-step-desc">Name, Firma, Position, Email, Adresse</div>
+                  <div class="fork-step-title" data-de="Formular ausfüllen" data-en="Fill out form">Formular ausfüllen</div>
+                  <div class="fork-step-desc" data-de="Name, Firma, Position, Email, Adresse" data-en="Name, company, position, email, address">Name, Firma, Position, Email, Adresse</div>
                 </div>
                 <div class="fork-connector"></div>
 
                 <div class="fork-step-card green" data-delay="100">
-                  <div class="fork-step-title">NDA generiert + versendet</div>
-                  <div class="fork-step-desc">PDF automatisch erstellt und per Email zugestellt</div>
+                  <div class="fork-step-title" data-de="NDA generiert + versendet" data-en="NDA generated + sent">NDA generiert + versendet</div>
+                  <div class="fork-step-desc" data-de="PDF automatisch erstellt und per Email zugestellt" data-en="PDF automatically created and delivered via email">PDF automatisch erstellt und per Email zugestellt</div>
                 </div>
                 <div class="fork-connector"></div>
 
                 <div class="fork-step-card green" data-delay="200">
-                  <div class="fork-step-title">Bestätigungs-Email an Visitor</div>
-                  <div class="fork-step-desc">Automatische Bestätigung mit Download-Link</div>
+                  <div class="fork-step-title" data-de="Bestätigungs-Email an Visitor" data-en="Confirmation Email to Visitor">Bestätigungs-Email an Visitor</div>
+                  <div class="fork-step-desc" data-de="Automatische Bestätigung mit Download-Link" data-en="Automatic confirmation with download link">Automatische Bestätigung mit Download-Link</div>
                 </div>
                 <div class="fork-connector"></div>
 
                 <div class="fork-step-card gray" data-delay="300">
-                  <div class="fork-step-title">Sign In / Edit &amp; Comments</div>
-                  <div class="fork-step-desc">Digital unterzeichnen oder Änderungen vorschlagen</div>
+                  <div class="fork-step-title" data-de="Sign In / Edit & Comments" data-en="Sign In / Edit & Comments">Sign In / Edit &amp; Comments</div>
+                  <div class="fork-step-desc" data-de="Digital unterzeichnen oder Änderungen vorschlagen" data-en="Sign digitally or suggest changes">Digital unterzeichnen oder Änderungen vorschlagen</div>
                 </div>
                 <div class="fork-connector"></div>
 
                 <div class="fork-step-card green" data-delay="400">
-                  <div class="fork-step-title">KI-Analyse Visitor</div>
-                  <div class="fork-step-desc">Wer ist er? Strategisch / PE / Angrenzend — Kauflogik in 2 Sätzen</div>
+                  <div class="fork-step-title" data-de="KI-Analyse Visitor" data-en="AI Analysis of Visitor">KI-Analyse Visitor</div>
+                  <div class="fork-step-desc" data-de="Wer ist er? Strategisch / PE / Angrenzend — Kauflogik in 2 Sätzen" data-en="Who is he? Strategic / PE / Adjacent — buying logic in 2 sentences">Wer ist er? Strategisch / PE / Angrenzend — Kauflogik in 2 Sätzen</div>
                 </div>
                 <div class="fork-connector"></div>
 
                 <div class="fork-step-card green" data-delay="500">
-                  <div class="fork-step-title">Berater-Benachrichtigung</div>
-                  <div class="fork-step-desc">Email + Dashboard-Update mit vollständigem Visitor-Profil</div>
+                  <div class="fork-step-title" data-de="Berater-Benachrichtigung" data-en="Advisor Notification">Berater-Benachrichtigung</div>
+                  <div class="fork-step-desc" data-de="Email + Dashboard-Update mit vollständigem Visitor-Profil" data-en="Email + dashboard update with complete visitor profile">Email + Dashboard-Update mit vollständigem Visitor-Profil</div>
                 </div>
                 <div class="fork-connector"></div>
 
                 <div class="fork-step-card green" data-delay="600">
-                  <div class="fork-step-title">Dashboard aktualisiert</div>
-                  <div class="fork-step-desc">NDA-Status, Visitor-Profil, Relevanz-Score sichtbar</div>
+                  <div class="fork-step-title" data-de="Dashboard aktualisiert" data-en="Dashboard Updated">Dashboard aktualisiert</div>
+                  <div class="fork-step-desc" data-de="NDA-Status, Visitor-Profil, Relevanz-Score sichtbar" data-en="NDA status, visitor profile, relevance score visible">NDA-Status, Visitor-Profil, Relevanz-Score sichtbar</div>
                 </div>
               </div>
 
               <!-- PATH B -->
               <div class="fork-path" id="path-b">
                 <div class="fork-connector"></div>
-                <div class="fork-path-label">Pfad B — Get in Touch</div>
+                <div class="fork-path-label" data-de="Pfad B — Get in Touch" data-en="Path B — Get in Touch">Pfad B — Get in Touch</div>
 
                 <div class="fork-step-card gray" data-delay="0">
-                  <div class="fork-step-title">vCard Download</div>
-                  <div class="fork-step-desc">Berater-Kontaktdaten als vCard</div>
+                  <div class="fork-step-title" data-de="vCard Download" data-en="vCard Download">vCard Download</div>
+                  <div class="fork-step-desc" data-de="Berater-Kontaktdaten als vCard" data-en="Advisor contact details as vCard">Berater-Kontaktdaten als vCard</div>
                 </div>
               </div>
 
@@ -1144,7 +1157,9 @@
         unlock();
       } else {
         pwInput.classList.add('error');
-        pwError.textContent = 'Falsches Passwort. Bitte erneut versuchen.';
+        pwError.textContent = (localStorage.getItem('lang') === 'en')
+          ? 'Wrong password. Please try again.'
+          : 'Falsches Passwort. Bitte erneut versuchen.';
         setTimeout(() => pwInput.classList.remove('error'), 500);
         pwInput.value = '';
         pwInput.focus();
@@ -1160,6 +1175,30 @@
     window.addEventListener('load', () => {
       if (!sessionStorage.getItem('hiw_auth')) pwInput.focus();
     });
+
+    // -----------------------------------------------
+    // LANGUAGE TOGGLE
+    // -----------------------------------------------
+    function setLang(lang) {
+      localStorage.setItem('lang', lang);
+      document.querySelectorAll('[data-de]').forEach(el => {
+        el.textContent = lang === 'en' ? el.dataset.en : el.dataset.de;
+      });
+      // Handle placeholder separately
+      const pwInputEl = document.getElementById('pw-input');
+      if (pwInputEl) pwInputEl.placeholder = lang === 'en' ? 'Password' : 'Passwort';
+      // Update buttons
+      document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      // Update html lang attr
+      document.documentElement.lang = lang;
+    }
+
+    function initLang() {
+      const lang = localStorage.getItem('lang') || 'de';
+      setLang(lang);
+    }
+    initLang();
 
     // -----------------------------------------------
     // LUCIDE ICONS
